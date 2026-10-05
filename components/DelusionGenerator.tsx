@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import Reveal from "./ui/Reveal";
-import { BurstLayer, Eyebrow, Floating, Splash, Star } from "./ui/Doodles";
+import { Note, Warning } from "./eggs/Decor";
+import { FoundOnMount, StarEgg } from "./eggs/Interactive";
+import { BurstLayer, Eyebrow, Floating, Splash } from "./ui/Doodles";
 import { useBurst, useClipboard } from "@/lib/hooks";
 import { cn, pick } from "@/lib/utils";
 
@@ -93,8 +95,8 @@ export default function DelusionGenerator() {
       className="relative overflow-hidden bg-hot py-24 sm:py-32"
     >
       <Splash className="pointer-events-none absolute -left-28 -top-20 w-60 text-sun sm:-left-24 sm:top-10 sm:w-96" />
-      <Floating className="right-[8%] top-14" dur={5}>
-        <Star className="size-12 text-sun" />
+      <Floating decorative={false} className="right-[8%] top-14 z-10" dur={5}>
+        <StarEgg id="star" starClassName="size-12 text-sun" />
       </Floating>
       <Floating className="bottom-16 left-[45%] hidden text-4xl lg:block" dur={6} delay={1}>
         🔥
@@ -118,6 +120,14 @@ export default function DelusionGenerator() {
               <br />
               this session
             </span>
+          </p>
+          {/* Fixed height so the milestone message never shifts the layout */}
+          <p className="mt-3 h-8 font-hand text-xl sm:text-2xl" aria-live="polite">
+            {count >= 10 ? (
+              <FoundOnMount id="generator-10">ok that&apos;s enough delusion for one day.</FoundOnMount>
+            ) : (
+              <Note>according to my calculations (I guessed).</Note>
+            )}
           </p>
         </Reveal>
 
@@ -189,6 +199,7 @@ export default function DelusionGenerator() {
               <span className="text-right font-hand text-lg leading-tight sm:text-xl">results not guaranteed 🙃</span>
             </div>
           </div>
+          <Warning className="ml-auto mt-6 flex w-max text-ink">This statement has not been peer reviewed.</Warning>
         </Reveal>
       </div>
     </section>

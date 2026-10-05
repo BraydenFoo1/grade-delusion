@@ -1,4 +1,5 @@
 import Reveal from "./ui/Reveal";
+import { MiniStamp, Note } from "./eggs/Decor";
 import { Eyebrow } from "./ui/Doodles";
 import { site } from "@/lib/site";
 
@@ -34,6 +35,7 @@ export default function GradeSolution() {
           >
             Visit Grade Solution <span aria-hidden>↗</span>
           </a>
+          <Note className="ml-4 hidden align-middle text-xl sm:inline">← the serious button</Note>
         </Reveal>
 
         <Reveal delay={150}>
@@ -63,6 +65,9 @@ export default function GradeSolution() {
             </tbody>
           </table>
           <p className="mt-6 text-center font-hand text-2xl">you need both. trust us.</p>
+          <p className="mt-2 text-center" aria-hidden>
+            <MiniStamp className="-rotate-3 bg-hot">allegedly</MiniStamp>
+          </p>
         </Reveal>
       </div>
     </section>

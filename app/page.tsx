@@ -9,6 +9,7 @@ import DelusionTest from "@/components/DelusionTest";
 import GradeSolution from "@/components/GradeSolution";
 import JoinSocials from "@/components/JoinSocials";
 import Footer from "@/components/Footer";
+import EggProvider from "@/components/eggs/EggProvider";
 import { site } from "@/lib/site";
 
 const jsonLd = {
@@ -23,7 +24,7 @@ const jsonLd = {
 
 export default function Home() {
   return (
-    <>
+    <EggProvider>
       <a
         href="#main"
         className="sr-only z-[100] rounded-lg bg-ink px-4 py-2 font-bold text-sun focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
@@ -47,6 +48,6 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-    </>
+    </EggProvider>
   );
 }

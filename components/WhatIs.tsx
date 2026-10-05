@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Reveal from "./ui/Reveal";
+import { MiniStamp, Note, Warning } from "./eggs/Decor";
+import { EggReveal } from "./eggs/Interactive";
 import { Arrow, Eyebrow, Sparkle } from "./ui/Doodles";
 import { cn } from "@/lib/utils";
 
@@ -91,10 +93,17 @@ function FlipCard({ card }: { card: (typeof cards)[number] }) {
 export default function WhatIs() {
   return (
     <section id="what" aria-labelledby="what-title" className="relative overflow-hidden bg-paper py-24 sm:py-32">
-      <Sparkle className="pointer-events-none absolute right-[6%] top-20 size-12 text-sun" />
+      <span className="absolute right-[6%] top-20 z-10">
+        <EggReveal id="sparkle" label="Shiny decoration" message="Congratulations. You clicked a decoration instead of studying.">
+          <Sparkle className="size-12 text-sun" />
+        </EggReveal>
+      </span>
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <Reveal>
+        <Reveal className="relative">
           <Eyebrow n="01">the lore</Eyebrow>
+          <Note className="absolute right-24 top-2 hidden rotate-3 text-2xl text-hot lg:block">
+            (this will probably be tested)
+          </Note>
           <h2 id="what-title" className="section-title max-w-5xl">
             So... what <span className="hl">exactly</span> is Grade Delusion?
           </h2>
@@ -114,6 +123,7 @@ export default function WhatIs() {
                 <b>questionable logic</b> that comes with being a student.
               </p>
               <p className="mt-4 font-hand text-2xl">— the management (also delusional)</p>
+              <MiniStamp className="absolute -bottom-3 -right-2 -rotate-6 bg-paper">Source: me</MiniStamp>
             </div>
           </Reveal>
         </div>
@@ -132,6 +142,7 @@ export default function WhatIs() {
             </li>
           ))}
         </ul>
+        <Warning className="ml-auto mt-12 flex w-max text-ink">Confidence ≠ marks</Warning>
       </div>
     </section>
   );

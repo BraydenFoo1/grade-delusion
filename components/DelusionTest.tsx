@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Reveal from "./ui/Reveal";
+import { Note } from "./eggs/Decor";
+import { RevealSticker } from "./eggs/Interactive";
 import { BurstLayer, Eyebrow, Floating, Sparkle } from "./ui/Doodles";
 import { useBurst, useClipboard, useCountUp } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
@@ -144,6 +146,15 @@ export default function DelusionTest() {
 
         <Reveal delay={150} className="mx-auto mt-12 max-w-3xl">
           <div className="relative rounded-[2rem] border-[3px] border-ink bg-paper p-5 text-ink shadow-[10px_10px_0_var(--ink)] sm:p-10">
+            <Note className="absolute -top-9 left-5 -rotate-3 text-xl text-paper sm:text-2xl">
+              the answer is definitely C.
+            </Note>
+            <RevealSticker
+              id="exam-ready"
+              front="Exam ready*"
+              back="*probably not"
+              className="absolute -right-2 -top-6 z-10 sm:-right-5"
+            />
             {!done ? (
               <>
                 <div className="flex items-center justify-between gap-4">

@@ -489,3 +489,49 @@ body {
     background: var(--sun);
   }
 }
+
+/* Easter-egg speech bubbles (components/eggs/Interactive.tsx) */
+@layer components {
+  .egg-bubble {
+    position: relative;
+    background: var(--paper);
+    color: var(--ink);
+    border: 2.5px solid var(--ink);
+    border-radius: 14px;
+    padding: 0.45rem 0.75rem 0.5rem;
+    font-family: var(--font-hand);
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.1;
+    text-align: left;
+    text-transform: none;
+    letter-spacing: normal;
+    box-shadow: 3px 3px 0 var(--ink);
+    rotate: -2deg;
+  }
+  .egg-bubble::before {
+    content: "";
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    background: var(--paper);
+    border: 2.5px solid var(--ink);
+    rotate: 45deg;
+  }
+  .egg-bubble-down::before {
+    top: -8px;
+    border-right: 0;
+    border-bottom: 0;
+  }
+  .egg-bubble-up::before {
+    bottom: -8px;
+    border-left: 0;
+    border-top: 0;
+  }
+  .egg-tail-right::before {
+    right: 14px;
+  }
+  .egg-tail-left::before {
+    left: 14px;
+  }
+}

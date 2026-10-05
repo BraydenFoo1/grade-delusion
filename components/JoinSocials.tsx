@@ -1,4 +1,5 @@
 import Reveal from "./ui/Reveal";
+import { MiniStamp, Note } from "./eggs/Decor";
 import { BrandIcon, type Brand } from "./ui/BrandIcons";
 import { Eyebrow, Floating, Splash, Star } from "./ui/Doodles";
 import { legal, site } from "@/lib/site";
@@ -23,8 +24,11 @@ export default function JoinSocials() {
       </Floating>
 
       <div className="relative mx-auto max-w-6xl px-4 text-center sm:px-6">
-        <Reveal>
+        <Reveal className="relative">
           <Eyebrow n="07">the group chat</Eyebrow>
+          <MiniStamp className="absolute right-[6%] top-28 hidden rotate-12 bg-paper md:inline-block">
+            Trust the process
+          </MiniStamp>
           <h2
             id="socials-title"
             className="font-display text-[clamp(3.6rem,15vw,11rem)] uppercase leading-[0.84] tracking-tight"
@@ -77,6 +81,7 @@ export default function JoinSocials() {
             </li>
           ))}
         </ul>
+        <Note className="mx-auto mt-6 block max-w-4xl text-right text-xl sm:text-2xl">follow us. then go study. (you won&apos;t.)</Note>
 
         <Reveal className="mt-14">
           <p className="text-lg">

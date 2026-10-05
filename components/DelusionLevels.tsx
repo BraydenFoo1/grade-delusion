@@ -2,6 +2,8 @@
 
 import { useRef, useState, type KeyboardEvent } from "react";
 import Reveal from "./ui/Reveal";
+import { Warning } from "./eggs/Decor";
+import { FlipNote } from "./eggs/Interactive";
 import { Eyebrow, Floating, Star } from "./ui/Doodles";
 import { cn } from "@/lib/utils";
 
@@ -79,6 +81,7 @@ export default function DelusionLevels() {
       <Floating className="bottom-20 left-[3%] hidden text-4xl lg:block" dur={7}>
         😭
       </Floating>
+      <Warning className="absolute right-[5%] top-32 hidden text-sun md:inline-flex">Delusion level: critical</Warning>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <Reveal>
@@ -228,6 +231,14 @@ export default function DelusionLevels() {
               </button>
             </div>
           </div>
+        </div>
+        <div className="mt-10 flex justify-end lg:justify-start">
+          <FlipNote
+            id="level-note"
+            before="psst. I'm definitely level 1."
+            after="WAIT... YOU ACTUALLY FOUND THIS."
+            className="-rotate-2 text-xl text-paper sm:text-2xl"
+          />
         </div>
       </div>
     </section>
