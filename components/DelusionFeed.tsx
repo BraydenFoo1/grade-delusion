@@ -2,6 +2,8 @@
 
 import { useState, type ReactNode } from "react";
 import Reveal from "./ui/Reveal";
+import { MiniStamp, Note } from "./eggs/Decor";
+import { FoundOnMount } from "./eggs/Interactive";
 import { BurstLayer, Eyebrow, MarkerCircle } from "./ui/Doodles";
 import { useBurst, useClipboard } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
@@ -318,6 +320,7 @@ export default function DelusionFeed() {
             <p className="mt-5 max-w-lg text-lg">
               Fresh student memes. Emotional damage included at no extra cost.
             </p>
+            <Note className="mt-3 block -rotate-1 text-xl">source: group chat.</Note>
           </Reveal>
 
           <Reveal delay={150}>
@@ -355,7 +358,15 @@ export default function DelusionFeed() {
             <button type="button" onClick={() => setExpanded(true)} className="brutal-btn bg-sun text-lg">
               Load more delusions <span aria-hidden>↓</span>
             </button>
+            <MiniStamp className="ml-5 hidden -rotate-6 bg-hot align-middle sm:inline-block">I&apos;m cooked</MiniStamp>
           </div>
+        )}
+        {filter === "all" && expanded && (
+          <p className="mt-14 text-center font-hand text-2xl sm:text-3xl">
+            <FoundOnMount id="feed-end">
+              That&apos;s every meme. You could be studying now. <span className="text-hot">(You won&apos;t.)</span>
+            </FoundOnMount>
+          </p>
         )}
       </div>
     </section>

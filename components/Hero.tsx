@@ -1,4 +1,6 @@
 import Reveal from "./ui/Reveal";
+import { MiniStamp, Note, Warning } from "./eggs/Decor";
+import { EggReveal } from "./eggs/Interactive";
 import { Arrow, Floating, Sparkle, Splash, Squiggle, Star, Underline } from "./ui/Doodles";
 import { cn, vars } from "@/lib/utils";
 
@@ -33,8 +35,10 @@ export default function Hero() {
       <Floating className="bottom-16 left-[48%] hidden text-5xl lg:block" dur={6} delay={0.5}>
         🧠
       </Floating>
-      <Floating className="right-5 top-[42%] text-4xl sm:right-10" dur={5.5} delay={1.2}>
-        💀
+      <Floating decorative={false} className="right-5 top-[42%] z-10 text-4xl sm:right-10" dur={5.5} delay={1.2}>
+        <EggReveal id="skull" label="Suspicious skull" message="This skull has seen your study timetable.">
+          <span aria-hidden>💀</span>
+        </EggReveal>
       </Floating>
       <Floating className="bottom-10 right-[8%] hidden text-4xl sm:block" dur={6.5}>
         ✏️
@@ -42,6 +46,8 @@ export default function Hero() {
       <Floating className="left-[40%] top-24 hidden text-4xl xl:block" dur={8} delay={2}>
         🎓
       </Floating>
+
+      <Warning className="absolute bottom-3 right-4 text-ink sm:right-8">Results may contain reality.</Warning>
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-4 sm:px-6 lg:grid-cols-12 lg:gap-6">
         {/* Copy */}
@@ -88,6 +94,7 @@ export default function Hero() {
             <a href="#feed" className="brutal-btn justify-center bg-paper text-lg">
               Meet the delusionals <span aria-hidden>💀</span>
             </a>
+            <MiniStamp className="hidden rotate-6 bg-mint xl:inline-block">100% sure</MiniStamp>
           </Reveal>
 
           <Reveal delay={700}>
@@ -128,6 +135,7 @@ export default function Hero() {
             ))}
           </ul>
           <Squiggle className="draw-now mt-12 hidden h-6 w-32 text-ink sm:block lg:ml-auto [--dd:2s]" />
+          <Note className="mt-2 hidden -rotate-2 text-xl sm:block lg:text-right">I studied. Trust me.</Note>
         </div>
       </div>
     </section>

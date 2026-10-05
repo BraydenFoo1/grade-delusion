@@ -116,16 +116,19 @@ export function Floating({
   className,
   dur = 6,
   delay = 0,
+  decorative = true,
 }: {
   children: ReactNode;
   className?: string;
   dur?: number;
   delay?: number;
+  /** false = contains an interactive secret, so keep it clickable and visible to screen readers */
+  decorative?: boolean;
 }) {
   return (
     <span
-      aria-hidden
-      className={cn("float pointer-events-none absolute select-none", className)}
+      aria-hidden={decorative || undefined}
+      className={cn("float absolute select-none", decorative && "pointer-events-none", className)}
       style={vars({ "--dur": `${dur}s`, "--delay": `${delay}s` })}
     >
       {children}

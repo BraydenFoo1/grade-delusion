@@ -1,3 +1,5 @@
+import { Note } from "./eggs/Decor";
+import { EggReveal } from "./eggs/Interactive";
 import { business, legal, site } from "@/lib/site";
 
 const links = [
@@ -40,6 +42,7 @@ export default function Footer() {
               </a>
               .
             </p>
+            <Note className="mt-6 block -rotate-1 text-xl text-sun">marks are a social construct.</Note>
           </div>
 
           <nav aria-label="Footer" className="lg:col-span-4">
@@ -97,6 +100,20 @@ export default function Footer() {
             © {new Date().getFullYear()} {business.legalName}. Your grades may vary. Your delusion won&apos;t.
           </p>
           <p>All results on this site are jokes. Your actual results are not. 💀</p>
+        </div>
+
+        <div className="mt-8 flex items-end justify-between gap-4">
+          <Note className="text-lg text-paper/75">nobody checks the footer. except you, apparently.</Note>
+          <EggReveal
+            id="footer-dots"
+            label="Suspicious dots"
+            side="top"
+            message="Nothing to see here. Your grades, however..."
+          >
+            <span aria-hidden className="px-1 text-xl font-bold leading-none tracking-[0.2em] text-paper/75">
+              ...
+            </span>
+          </EggReveal>
         </div>
       </div>
     </footer>
