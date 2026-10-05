@@ -91,10 +91,7 @@ export default function Hero() {
           </Reveal>
 
           <Reveal delay={700}>
-            <p className="mt-7 flex flex-wrap items-center gap-x-3 font-hand text-2xl">
-              <span className="font-sans text-base tracking-[0.2em]" aria-label="5 stars">★★★★★</span>
-              rated “too real” by 0 verified examiners
-            </p>
+            <p className="mt-7 font-hand text-2xl">side effects may include: sudden confidence.</p>
           </Reveal>
         </div>
 

@@ -1,9 +1,17 @@
 import { cn } from "@/lib/utils";
 
-export default function Logo({ className, onClick }: { className?: string; onClick?: () => void }) {
+export default function Logo({
+  className,
+  onClick,
+  href = "#top",
+}: {
+  className?: string;
+  onClick?: () => void;
+  href?: string;
+}) {
   return (
     <a
-      href="#top"
+      href={href}
       onClick={onClick}
       aria-label="Grade Delusion home"
       className={cn(

@@ -3,10 +3,10 @@ import { Eyebrow } from "./ui/Doodles";
 import { site } from "@/lib/site";
 
 const rows = [
-  ["Improves your grades", "Predicts your grades (wrongly)"],
-  ["Proper study plans", "“I'll start tomorrow” plans"],
-  ["Real tutors", "Real memes"],
-  ["Fixes the problem", "Is the problem"],
+  ["Helps you work on your grades", "Predicts your grades (wrongly)"],
+  ["Study plans", "“I'll start tomorrow” plans"],
+  ["Tuition & study support", "Memes & emotional support"],
+  ["Tackles the problem", "Is the problem"],
 ];
 
 export default function GradeSolution() {

@@ -4,7 +4,7 @@ import { useState, type ReactNode } from "react";
 import Reveal from "./ui/Reveal";
 import { BurstLayer, Eyebrow, MarkerCircle } from "./ui/Doodles";
 import { useBurst, useClipboard } from "@/lib/hooks";
-import { cn, formatCount } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { site } from "@/lib/site";
 
 type Tag = "exams" | "studying" | "results" | "life";
@@ -12,13 +12,11 @@ type Tag = "exams" | "studying" | "results" | "life";
 type Meme = {
   id: string;
   tag: Tag;
-  time: string;
   avatar: string;
   avatarBg: string;
   share: string;
   caption: ReactNode;
   visual: ReactNode;
-  counts: [number, number, number];
 };
 
 const reactions = [
@@ -31,7 +29,6 @@ const memes: Meme[] = [
   {
     id: "skipped-page",
     tag: "exams",
-    time: "2h",
     avatar: "📄",
     avatarBg: "bg-volt",
     share: "When you studied for 6 hours and the exam asks about the ONE page you skipped.",
@@ -54,7 +51,7 @@ const memes: Meme[] = [
               page 47
               <MarkerCircle className="draw-now absolute -left-2 -top-1.5 h-[calc(100%+0.75rem)] w-[calc(100%+1rem)] text-hot" />
             </span>
-            . <span className="text-ink/50">(100 marks)</span>
+            . <span className="text-ink/70">(100 marks)</span>
           </p>
         </div>
         <p className="absolute bottom-3 right-5 rotate-[-4deg] font-hand text-2xl text-paper sm:right-10">
@@ -62,12 +59,10 @@ const memes: Meme[] = [
         </p>
       </div>
     ),
-    counts: [4812, 3127, 902],
   },
   {
     id: "teacher-important",
     tag: "studying",
-    time: "5h",
     avatar: "🍎",
     avatarBg: "bg-hot",
     share: "Teacher: This topic is very important. Me: *I'll remember it.* Also me 10 minutes later:",
@@ -98,12 +93,10 @@ const memes: Meme[] = [
         <p className="mt-2 font-hand text-2xl">topic retention: 3%</p>
       </div>
     ),
-    counts: [6201, 2288, 1410],
   },
   {
     id: "who-is-this-for",
     tag: "exams",
-    time: "8h",
     avatar: "😎",
     avatarBg: "bg-mint",
     share: "Me before the exam: 'I got this.' Me after Question 1: 'Who is this paper for?'",
@@ -126,12 +119,10 @@ const memes: Meme[] = [
         </div>
       </div>
     ),
-    counts: [9034, 7710, 655],
   },
   {
     id: "expected-grade",
     tag: "results",
-    time: "1d",
     avatar: "🧮",
     avatarBg: "bg-sun",
     share: "POV: You calculated your expected grade before the results came out.",
@@ -162,12 +153,10 @@ const memes: Meme[] = [
         <span className="stamp absolute bottom-5 right-4 bg-hot text-base text-ink">Actual: loading… 💀</span>
       </div>
     ),
-    counts: [3530, 4410, 2876],
   },
   {
     id: "3am-brain",
     tag: "studying",
-    time: "2d",
     avatar: "🌙",
     avatarBg: "bg-volt",
     share: "My brain at 3am vs. my brain during the exam.",
@@ -184,12 +173,10 @@ const memes: Meme[] = [
         </div>
       </div>
     ),
-    counts: [7120, 5003, 840],
   },
   {
     id: "group-project",
     tag: "life",
-    time: "3d",
     avatar: "👥",
     avatarBg: "bg-mint",
     share: "Group project: 4 members. 1 doing the work. 3 providing 'emotional support'.",
@@ -215,7 +202,6 @@ const memes: Meme[] = [
         ))}
       </div>
     ),
-    counts: [5560, 3901, 1222],
   },
 ];
 
@@ -230,13 +216,11 @@ const filters: { key: "all" | Tag; label: string }[] = [
 function ReactionButton({
   emoji,
   label,
-  count,
   active,
   onToggle,
 }: {
   emoji: string;
   label: string;
-  count: number;
   active: boolean;
   onToggle: () => void;
 }) {
@@ -259,7 +243,6 @@ function ReactionButton({
         {emoji}
       </span>
       {label}
-      <span className="tabular-nums opacity-60">{formatCount(count)}</span>
     </button>
   );
 }
@@ -283,16 +266,8 @@ function MemeCard({ meme, tilt }: { meme: Meme; tilt: string }) {
           {meme.avatar}
         </span>
         <div className="min-w-0 flex-1 leading-tight">
-          <p className="flex items-center gap-1 font-bold">
-            Grade Delusion
-            <svg viewBox="0 0 20 20" className="size-4 text-volt" aria-label="verified">
-              <circle cx="10" cy="10" r="9" fill="currentColor" />
-              <path d="M6 10.5l2.5 2.5L14 7.5" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" />
-            </svg>
-          </p>
-          <p className="text-sm text-ink/55">
-            {site.handle} · {meme.time}
-          </p>
+          <p className="font-bold">Grade Delusion</p>
+          <p className="text-sm text-ink/70">{site.handle}</p>
         </div>
         <span className="rounded-full bg-ink px-2.5 py-1 text-[0.7rem] font-bold uppercase tracking-wider text-paper">
           #{meme.tag}
@@ -304,13 +279,12 @@ function MemeCard({ meme, tilt }: { meme: Meme; tilt: string }) {
       <div className="mx-5 mt-4 overflow-hidden rounded-2xl border-[3px] border-ink">{meme.visual}</div>
 
       <footer className="flex flex-wrap items-center gap-2 p-5">
-        {reactions.map((r, i) => (
+        {reactions.map((r) => (
           <ReactionButton
             key={r.key}
             emoji={r.emoji}
             label={r.label}
             active={!!picked[r.key]}
-            count={meme.counts[i] + (picked[r.key] ? 1 : 0)}
             onToggle={() => setPicked((p) => ({ ...p, [r.key]: !p[r.key] }))}
           />
         ))}
@@ -342,7 +316,7 @@ export default function DelusionFeed() {
               The <span className="brush">Delusion</span> Feed
             </h2>
             <p className="mt-5 max-w-lg text-lg">
-              Fresh student memes, served daily. Emotional damage included at no extra cost.
+              Fresh student memes. Emotional damage included at no extra cost.
             </p>
           </Reveal>
 

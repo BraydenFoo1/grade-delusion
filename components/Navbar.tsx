@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
+import MotionToggle from "./MotionToggle";
 import { Star } from "./ui/Doodles";
 import { navLinks, site } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -9,6 +10,8 @@ import { cn } from "@/lib/utils";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -20,12 +23,20 @@ export default function Navbar() {
   useEffect(() => {
     if (!open) return;
     document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    // Keep keyboard and screen-reader focus inside the menu while it covers the page.
+    const behind = Array.from(document.body.children).filter((el) => !el.contains(headerRef.current));
+    behind.forEach((el) => el.setAttribute("inert", ""));
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setOpen(false);
+      toggleRef.current?.focus();
+    };
     const onResize = () => window.innerWidth >= 1024 && setOpen(false);
     window.addEventListener("keydown", onKey);
     window.addEventListener("resize", onResize);
     return () => {
       document.body.style.overflow = "";
+      behind.forEach((el) => el.removeAttribute("inert"));
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("resize", onResize);
     };
@@ -34,7 +45,7 @@ export default function Navbar() {
   const close = () => setOpen(false);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5">
+    <header ref={headerRef} className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5">
       <nav
         aria-label="Main"
         className={cn(
@@ -61,7 +72,9 @@ export default function Navbar() {
           <a href="#test" className="brutal-btn hidden bg-hot px-4 py-2 text-sm sm:inline-flex">
             Am I delusional?
           </a>
+          <MotionToggle />
           <button
+            ref={toggleRef}
             type="button"
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
@@ -112,7 +125,9 @@ export default function Navbar() {
                 tabIndex={open ? 0 : -1}
                 className="group flex items-baseline gap-3 font-display text-[clamp(2.75rem,13vw,4.5rem)] uppercase leading-[1.02]"
               >
-                <span className="font-sans text-sm font-bold opacity-50">0{i + 1}</span>
+                <span className="font-sans text-sm font-bold opacity-70" aria-hidden>
+                  0{i + 1}
+                </span>
                 <span className="transition-transform group-hover:translate-x-2 group-active:text-hot">{l.label}</span>
               </a>
             </li>

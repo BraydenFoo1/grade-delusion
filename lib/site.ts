@@ -16,6 +16,22 @@ export const site = {
   },
 } as const;
 
+// Shown in the footer and legal pages. Empty fields are hidden automatically.
+// TODO: fill in Grade Solution's registered details before launch.
+export const business = {
+  legalName: "Grade Solution",
+  uen: "", // e.g. "202312345K"
+  address: "", // registered business address (optional)
+  dpoEmail: site.email, // data protection contact required under Singapore's PDPA
+  country: "Singapore",
+} as const;
+
+export const legal = {
+  lastUpdated: "5 October 2026",
+  privacy: "/privacy",
+  terms: "/terms",
+} as const;
+
 export const navLinks = [
   { href: "#top", label: "Home" },
   { href: "#feed", label: "Memes" },

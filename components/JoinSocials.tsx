@@ -1,43 +1,11 @@
-import type { ReactNode } from "react";
 import Reveal from "./ui/Reveal";
+import { BrandIcon, type Brand } from "./ui/BrandIcons";
 import { Eyebrow, Floating, Splash, Star } from "./ui/Doodles";
-import { site } from "@/lib/site";
+import { legal, site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-const iconProps = {
-  viewBox: "0 0 24 24",
-  fill: "none",
-  stroke: "currentColor",
-  strokeWidth: 2.2,
-  strokeLinecap: "round" as const,
-  strokeLinejoin: "round" as const,
-  "aria-hidden": true,
-  className: "size-9 sm:size-10",
-};
-
-const Icons: Record<string, ReactNode> = {
-  Instagram: (
-    <svg {...iconProps}>
-      <rect x="3" y="3" width="18" height="18" rx="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.3" cy="6.7" r="0.6" fill="currentColor" />
-    </svg>
-  ),
-  YouTube: (
-    <svg {...iconProps}>
-      <rect x="2" y="5" width="20" height="14" rx="4" />
-      <path d="M10 9l5 3-5 3z" fill="currentColor" />
-    </svg>
-  ),
-  Facebook: (
-    <svg {...iconProps}>
-      <path d="M15 3h-2a4 4 0 0 0-4 4v3H7v4h2v7h4v-7h3l1-4h-4V7a1 1 0 0 1 1-1h2z" />
-    </svg>
-  ),
-};
-
-const channels = [
-  { name: "Instagram", href: site.socials.instagram, note: "memes, daily", style: "bg-hot", tilt: "-rotate-2" },
+const channels: { name: Brand; href: string; note: string; style: string; tilt: string }[] = [
+  { name: "Instagram", href: site.socials.instagram, note: "memes & exam chaos", style: "bg-hot", tilt: "-rotate-2" },
   { name: "YouTube", href: site.socials.youtube, note: "longer delusions", style: "bg-volt text-paper", tilt: "rotate-1" },
   { name: "Facebook", href: site.socials.facebook, note: "for your parents to find", style: "bg-mint", tilt: "rotate-2" },
 ];
@@ -89,7 +57,7 @@ export default function JoinSocials() {
                 >
                   <span className="flex items-start justify-between">
                     <span className="transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-110">
-                      {Icons[c.name]}
+                      <BrandIcon name={c.name} className="size-9 sm:size-10" />
                     </span>
                     <span
                       className="text-2xl transition-transform duration-200 group-hover:-translate-y-1 group-hover:translate-x-1"
@@ -102,7 +70,7 @@ export default function JoinSocials() {
                     <span className="block font-display text-[clamp(1.35rem,4.5vw,2rem)] uppercase leading-none">
                       {c.name}
                     </span>
-                    <span className="mt-1 block font-hand text-lg leading-tight opacity-80 sm:text-xl">{c.note}</span>
+                    <span className="mt-1 block font-hand text-lg leading-tight sm:text-xl">{c.note}</span>
                   </span>
                 </a>
               </Reveal>
@@ -120,6 +88,14 @@ export default function JoinSocials() {
               Send it to us
             </a>{" "}
             — the best ones get featured. <span className="font-hand text-2xl">(fame is also a delusion)</span>
+          </p>
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed">
+            By sending us something, you agree to our{" "}
+            <a href={`${legal.terms}#submissions`} className="font-bold underline underline-offset-2">
+              submission rules
+            </a>
+            . Under 13? Please get a parent or guardian&apos;s OK first. Don&apos;t include other people&apos;s names
+            or faces without their permission.
           </p>
         </Reveal>
       </div>

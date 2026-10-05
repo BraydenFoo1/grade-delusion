@@ -131,7 +131,7 @@ export default function DelusionTest() {
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <Reveal className="text-center">
-          <Eyebrow n="05" className="text-sun">
+          <Eyebrow n="05" className="text-paper">
             the official test
           </Eyebrow>
           <h2 id="test-title" className="section-title mx-auto max-w-4xl">
@@ -248,7 +248,7 @@ export default function DelusionTest() {
 
                 <p className="stamp slam mt-6 bg-sun text-2xl [--d:1000ms] sm:text-3xl">{tier.title}</p>
                 <p className="mx-auto mt-6 max-w-md font-marker text-xl leading-snug sm:text-2xl">{tier.desc}</p>
-                <p className="mt-3 text-xs text-ink/50">
+                <p className="mt-3 text-sm text-ink/70">
                   *Not a real diagnosis. Not medical advice. Purely a vibe check.
                 </p>
 

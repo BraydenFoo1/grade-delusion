@@ -437,3 +437,55 @@ body {
     transition-delay: 0ms !important;
   }
 }
+
+/* Visitor pressed "Pause animations" (components/MotionToggle.tsx) */
+[data-motion="paused"] :is(.float, .bob, .marquee, .stripes, [class*="animate-"], .wiggle-hover > [aria-hidden]) {
+  animation-play-state: paused !important;
+}
+
+/* Long-form text on the legal pages */
+@layer components {
+  .legal {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+  .legal h2 {
+    margin-top: 3rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+    line-height: 1;
+    text-transform: uppercase;
+    scroll-margin-top: 2rem;
+  }
+  .legal h3 {
+    margin-top: 1.75rem;
+    font-weight: 700;
+    font-size: 1.15rem;
+  }
+  .legal p,
+  .legal ul,
+  .legal ol {
+    margin-top: 1rem;
+  }
+  .legal ul {
+    list-style: disc;
+    padding-left: 1.4rem;
+  }
+  .legal ol {
+    list-style: decimal;
+    padding-left: 1.4rem;
+  }
+  .legal li + li {
+    margin-top: 0.4rem;
+  }
+  .legal a {
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--hot);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+  .legal a:hover {
+    background: var(--sun);
+  }
+}
