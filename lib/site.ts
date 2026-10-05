@@ -8,7 +8,7 @@ export const site = {
   url: "https://gradedelusion.com",
   handle: "@gradedelusion",
   email: "gradedelusion.sg@gmail.com",
-  gradeSolutionUrl: "https://gradesolution.com",
+  gradeSolutionUrl: "https://gradesolution.com.sg",
   socials: {
     instagram: "https://www.instagram.com/gradedelusion/",
     youtube: "https://youtube.com/@gradesolutionsg",
