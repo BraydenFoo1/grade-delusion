@@ -121,7 +121,7 @@ export default function TermsPage() {
       <h2 id="respect">5. Using the site respectfully</h2>
       <p>
         Don&apos;t use Grade Delusion™ content to bully or harass anyone, and don&apos;t try to disrupt, hack or misuse
-        the website.
+        the website. If we catch anyone misusing the wbesite, we would not hesitate to ban the user's IP address which may affect others, so please do not attempt to misuse it as we take it very seriously. Furthermore, it is a punishable offence under the Computer Misuse Act (CMA)
       </p>
 
       <h2 id="links">6. Links to other sites</h2>
