@@ -25,10 +25,10 @@ export const metadata: Metadata = {
     "student life",
   ],
   applicationName: site.name,
-  alternates: { canonical: "/" },
+  // Home canonical + og:url are rendered in app/page.tsx: Next strips the trailing slash from
+  // the root URL, and the canonical must match the WebSite structured data exactly.
   openGraph: {
     type: "website",
-    url: site.url,
     siteName: site.name,
     title: `${site.name} — ${site.tagline}`,
     description: "100% confidence. 0% evidence. Memes, mini-games and a delusion test for every student.",

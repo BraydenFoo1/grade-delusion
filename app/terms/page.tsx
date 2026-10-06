@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage";
+import { pageMetadata } from "@/lib/seo";
 import { business, legal, site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Terms of Use",
-  description: "The rules for using Grade Delusion™ and sending us memes.",
-  alternates: { canonical: legal.terms },
-};
+  description: "The rules for using Grade Delusion and sending us memes.",
+  path: legal.terms,
+});
 
 const contact = <a href={`mailto:${business.dpoEmail}`}>{business.dpoEmail}</a>;
 

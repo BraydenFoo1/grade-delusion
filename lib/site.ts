@@ -1,10 +1,12 @@
 // Central place for brand copy and links.
 // TODO: replace remaining placeholder URLs (site url, Grade Solution) before launch.
 export const site = {
-  name: "Grade Delusion™",
+  // Preferred site name for Google Search / link previews. Visible branding keeps the ™.
+  name: "Grade Delusion",
+  alternateName: "Grade Delusion™",
   tagline: "All students only have delusions.",
   description:
-    "Grade Delusion™ is the funny, chaotic, overly-confident side of being a student. Student memes, a delusion generator and a (very unscientific) delusion test. 100% confidence. 0% evidence.",
+    "Grade Delusion is the funny, chaotic, overly-confident side of being a student. Student memes, a delusion generator and a (very unscientific) delusion test. 100% confidence. 0% evidence.",
   url: "https://grade-delusion.vercel.app",
   handle: "@gradedelusion",
   email: "gradedelusion.sg@gmail.com",
@@ -15,6 +17,9 @@ export const site = {
     facebook: "https://www.facebook.com/profile.php?id=61595322110945",
   },
 } as const;
+
+/** Canonical home page URL (with trailing slash), used everywhere the home page is referenced. */
+export const homeUrl = `${site.url}/`;
 
 // Shown in the footer and legal pages. Empty fields are hidden automatically.
 // TODO: fill in Grade Solution's registered details before launch.

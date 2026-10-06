@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage";
+import { pageMetadata } from "@/lib/seo";
 import { business, legal, site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Privacy Policy",
-  description: "How Grade Delusion™ handles personal data. Short answer: we collect almost nothing.",
-  alternates: { canonical: legal.privacy },
-};
+  description: "How Grade Delusion handles personal data. Short answer: we collect almost nothing.",
+  path: legal.privacy,
+});
 
 const dpo = <a href={`mailto:${business.dpoEmail}`}>{business.dpoEmail}</a>;
 const operator = (
