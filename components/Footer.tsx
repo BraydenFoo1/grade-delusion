@@ -108,9 +108,9 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="mt-6 flex flex-col gap-3 text-sm text-paper/75 sm:flex-row sm:justify-between">
+        <div className="mt-6 flex flex-col gap-3 text-sm text-paper/75">
           <p>© {new Date().getFullYear()} Grade Delusion. Your grades may vary. Your delusion won&apos;t.</p>
-          <p>All results on this site are jokes. Your actual results are not. 💀</p>
+          <p>All parts of this website have been manually coded by Grade Delusion and Website Builder.</p>
         </div>
 
         <div className="mt-8 flex items-end justify-between gap-4">
