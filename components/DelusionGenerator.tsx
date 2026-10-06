@@ -19,7 +19,7 @@ const DELUSIONS = [
   "Five more minutes of TikTok, then I'll lock in.",
   "I understood the lesson, so I don't need to practise.",
   "If I sleep with the textbook under my pillow, it counts.",
-  "Everyone else didn't study either. The bell curve will save me.",
+  "Everyone else didn't study either. Teacher cannot scold the class for sure. Confirm+Chop",
   "Rewriting my notes in nice colours is basically studying.",
   "I don't need the formula sheet. I AM the formula sheet.",
   "I'll just revise during lunch before the exam.",
