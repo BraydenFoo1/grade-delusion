@@ -109,9 +109,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-6 flex flex-col gap-3 text-sm text-paper/75 sm:flex-row sm:justify-between">
-          <p>
-            © {new Date().getFullYear()} {business.legalName}. Your grades may vary. Your delusion won&apos;t.
-          </p>
+          <p>© {new Date().getFullYear()} Grade Delusion. Your grades may vary. Your delusion won&apos;t.</p>
           <p>All results on this site are jokes. Your actual results are not. 💀</p>
         </div>
 
