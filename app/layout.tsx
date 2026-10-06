@@ -40,6 +40,8 @@ export const metadata: Metadata = {
     description: "100% confidence. 0% evidence.",
   },
   robots: { index: true, follow: true },
+  // Google Search Console ownership check
+  verification: { google: "q13y0ZZIKCU2SJeS9nFhPCyXBg1kw4aqyFTnWFzmZrY" },
 };
 
 export const viewport: Viewport = {
