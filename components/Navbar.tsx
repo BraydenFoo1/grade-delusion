@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
 import MotionToggle from "./MotionToggle";
 import { Star } from "./ui/Doodles";
+import { exploreLinks, pages } from "@/lib/content";
 import { navLinks, site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -103,7 +104,7 @@ export default function Navbar() {
       <div
         id="mobile-menu"
         className={cn(
-          "dots fixed inset-0 -z-10 flex flex-col bg-sun px-6 pb-10 pt-28 transition-all duration-300 lg:hidden",
+          "dots fixed inset-0 -z-10 flex flex-col overflow-y-auto bg-sun px-6 pb-10 pt-28 transition-all duration-300 lg:hidden",
           open ? "visible opacity-100" : "invisible opacity-0",
         )}
         aria-hidden={!open}
@@ -133,6 +134,22 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
+        <div className="mb-8 mt-4">
+          <p className="text-xs font-bold uppercase tracking-[0.2em]">Explore</p>
+          <ul className="mt-2 flex flex-wrap gap-2">
+            {[...exploreLinks, pages.blog].map((l) => (
+              <li key={l.path}>
+                <a
+                  href={l.path}
+                  tabIndex={open ? 0 : -1}
+                  className="inline-block rounded-full border-2 border-ink bg-paper px-3 py-1.5 text-sm font-bold"
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
         <div className="flex items-end justify-between gap-4">
           <p className="max-w-[14rem] font-marker text-xl leading-tight">“{site.tagline}”</p>
           <Star className="bob size-14 text-hot" />

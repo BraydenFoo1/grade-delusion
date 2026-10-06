@@ -1,5 +1,6 @@
 import { Note } from "./eggs/Decor";
 import { EggReveal } from "./eggs/Interactive";
+import { exploreLinks, pages } from "@/lib/content";
 import { business, legal, site } from "@/lib/site";
 
 const links = [
@@ -22,7 +23,7 @@ export default function Footer() {
     <footer className="bg-ink pb-10 pt-20 text-paper">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid gap-14 lg:grid-cols-12">
-          <div className="lg:col-span-8">
+          <div className="lg:col-span-6">
             <p className="font-display text-[clamp(3.25rem,12vw,8rem)] uppercase leading-[0.85]">
               Grade
               <br />
@@ -45,7 +46,7 @@ export default function Footer() {
             <Note className="mt-6 block -rotate-1 text-xl text-sun">marks are a social construct.</Note>
           </div>
 
-          <nav aria-label="Footer" className="lg:col-span-4">
+          <nav aria-label="Footer" className="lg:col-span-3">
             <p className="mb-5 text-xs font-bold uppercase tracking-[0.25em] text-paper/70">Navigate the chaos</p>
             <ul className="grid grid-cols-2 gap-x-6 gap-y-4 lg:grid-cols-1">
               {links.map((l) => (
@@ -60,6 +61,18 @@ export default function Footer() {
                     >
                       →
                     </span>
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <nav aria-label="Explore Grade Delusion" className="lg:col-span-3">
+            <p className="mb-5 text-xs font-bold uppercase tracking-[0.25em] text-paper/70">Explore</p>
+            <ul className="grid grid-cols-2 gap-x-6 gap-y-3 lg:grid-cols-1">
+              {[...exploreLinks, pages.blog].map((l) => (
+                <li key={l.path}>
+                  <a href={l.path} className="font-bold transition-colors hover:text-sun hover:underline">
                     {l.label}
                   </a>
                 </li>

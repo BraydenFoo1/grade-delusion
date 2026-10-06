@@ -25,7 +25,7 @@ export default function JoinSocials() {
 
       <div className="relative mx-auto max-w-6xl px-4 text-center sm:px-6">
         <Reveal className="relative">
-          <Eyebrow n="07">the group chat</Eyebrow>
+          <Eyebrow n="08">the group chat</Eyebrow>
           <MiniStamp className="absolute right-[6%] top-28 hidden rotate-12 bg-paper md:inline-block">
             Trust the process
           </MiniStamp>

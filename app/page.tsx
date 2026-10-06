@@ -8,6 +8,7 @@ import DelusionGenerator from "@/components/DelusionGenerator";
 import DelusionTest from "@/components/DelusionTest";
 import GradeSolution from "@/components/GradeSolution";
 import JoinSocials from "@/components/JoinSocials";
+import ExploreSection from "@/components/ExploreSection";
 import Footer from "@/components/Footer";
 import EggProvider from "@/components/eggs/EggProvider";
 import { homeUrl, site } from "@/lib/site";
@@ -57,6 +58,7 @@ export default function Home() {
         <DelusionGenerator />
         <DelusionTest />
         <GradeSolution />
+        <ExploreSection />
         <JoinSocials />
       </main>
       <Footer />

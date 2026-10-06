@@ -6,7 +6,7 @@ export const site = {
   alternateName: "Grade Delusion™",
   tagline: "All students only have delusions.",
   description:
-    "Grade Delusion is the funny, chaotic, overly-confident side of being a student. Student memes, a delusion generator and a (very unscientific) delusion test. 100% confidence. 0% evidence.",
+    "Grade Delusion is the funny side of student life: student memes, a delusion generator and a very unscientific delusion test. 100% confidence, 0% evidence.",
   url: "https://grade-delusion.vercel.app",
   handle: "@gradedelusion",
   email: "gradedelusion.sg@gmail.com",

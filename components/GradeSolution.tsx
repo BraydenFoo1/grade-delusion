@@ -18,7 +18,7 @@ export default function GradeSolution() {
           <Eyebrow n="06">the fine print</Eyebrow>
           <h2 id="about-title" className="font-display text-[clamp(2.4rem,6vw,4.25rem)] uppercase leading-[0.92]">
             Yes, we have a serious{" "}
-            <span className="inline-block -rotate-6 align-middle font-hand text-[0.45em] normal-case leading-none text-hot">
+            <span className="inline-block -rotate-6 align-middle font-hand text-[length:max(0.45em,1.5rem)] normal-case leading-none text-hot">
               (sort of)
             </span>{" "}
             side.
