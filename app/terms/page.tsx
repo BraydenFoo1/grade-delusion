@@ -74,10 +74,10 @@ export default function TermsPage() {
 
       <h2 id="our-content">3. Our content</h2>
       <p>
-        The text, memes, illustrations, design and the Grade Delusion™ name and logo belong to {business.legalName}. You
+        The text, memes, illustrations, design and the Grade Delusion™ name and logo belong to Grade Delusion. You
         may share links and screenshots for personal, non-commercial use, as long as you don&apos;t edit them to mislead
         anyone and you credit Grade Delusion™ ({site.handle}). Please don&apos;t reuse our content commercially, sell it,
-        or present it as your own without our written permission.
+        or present it as your own without our written permission. If we forsee any of these, we would not hesitate to take legal action.
       </p>
 
       <h2 id="submissions">4. Submission rules</h2>
@@ -121,7 +121,7 @@ export default function TermsPage() {
       <h2 id="respect">5. Using the site respectfully</h2>
       <p>
         Don&apos;t use Grade Delusion™ content to bully or harass anyone, and don&apos;t try to disrupt, hack or misuse
-        the website.
+        the website. If we catch anyone misusing the wbesite, we would not hesitate to ban the user's IP address which may affect others, so please do not attempt to misuse it as we take it very seriously. Furthermore, it is a punishable offence under the Computer Misuse Act (CMA)
       </p>
 
       <h2 id="links">6. Links to other sites</h2>
