@@ -25,8 +25,6 @@ export const metadata: Metadata = {
     "student life",
   ],
   applicationName: site.name,
-  // Home canonical + og:url are rendered in app/page.tsx: Next strips the trailing slash from
-  // the root URL, and the canonical must match the WebSite structured data exactly.
   openGraph: {
     type: "website",
     siteName: site.name,
@@ -39,8 +37,13 @@ export const metadata: Metadata = {
     title: `${site.name} — ${site.tagline}`,
     description: "100% confidence. 0% evidence.",
   },
-  robots: { index: true, follow: true },
-  // Google Search Console ownership check
+  // Replaced { index: true, follow: true } to block AI caching & search snippets
+  robots: { 
+    index: true, 
+    follow: false,
+    nocache: true,
+    noarchive: true
+  },
   verification: { google: "q13y0ZZIKCU2SJeS9nFhPCyXBg1kw4aqyFTnWFzmZrY" },
 };
 
@@ -61,7 +64,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <style>{`.reveal{opacity:1!important;translate:none!important}.reveal .hl{background-size:100% 42%!important}.reveal .write{clip-path:none!important}.reveal .draw path{stroke-dashoffset:0!important}.reveal .brush::before{transform:none!important}`}</style>
         </noscript>
       </head>
-      <body className="bg-paper font-sans text-ink antialiased">{children}</body>
+      {/* Added data-nosnippet to completely hide text inside the body from search engine AI tools */}
+      <body data-nosnippet className="bg-paper font-sans text-ink antialiased">
+        {children}
+      </body>
     </html>
   );
 }
