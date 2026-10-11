@@ -108,15 +108,16 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="mt-6 flex flex-col gap-3 text-sm text-paper/75 sm:flex-row sm:justify-between">
-          <p>
-            {"© "}{new Date().getFullYear()}{" Grade Delusion. Your grades may vary. Your delusion won't."}
-          </p>
-          <p>
-            All part of this website have been manually coded by Grade Delusion and Websi...
-          </p>
-          <p>All results on this site are jokes. Your actual results are not. 💀</p>
-        </div>
+        <div className="mt-6 flex flex-col gap-2 text-sm text-paper/75">
+  <p>
+    {"© "}{new Date().getFullYear()}{" Grade Delusion. Your grades may vary. Your delusion won't."}
+  </p>
+  <p>
+    All part of this website have been manually coded by Grade Delusion and Websi...
+  </p>
+  <p>All results on this site are jokes. Your actual results are not. 💀</p>
+</div>
+
 
         <div className="mt-8 flex items-end justify-between gap-4">
           <Note className="text-lg text-paper/75">nobody checks the footer. except you, apparently.</Note>
