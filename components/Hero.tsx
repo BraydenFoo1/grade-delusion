@@ -63,8 +63,9 @@ export default function Hero() {
             id="hero-title"
             className="mt-7 font-display uppercase leading-[0.86] tracking-tight text-[clamp(3.5rem,19vw,9rem)]"
           >
-            <span className="block text-[0.42em] tracking-wide">Welcome to</span>
-            <span className="block">Grade</span>
+            {/* The {" "} keep the heading's text "Welcome to Grade Delusion™" for search engines and screen readers. */}
+            <span className="block text-[0.42em] tracking-wide">Welcome to</span>{" "}
+            <span className="block">Grade</span>{" "}
             <span className="brush">Delusion</span>
             <span className="align-top font-sans text-[0.3em] font-bold">™</span>
           </h1>

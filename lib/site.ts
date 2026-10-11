@@ -5,11 +5,14 @@ export const site = {
   name: "Grade Delusion",
   alternateName: "Grade Delusion™",
   tagline: "All students only have delusions.",
+  // Home page <title>, og:title and twitter:title. Kept under ~60 characters so Google shows it in full.
+  homeTitle: "Grade Delusion | Student Memes & Delusions",
   description:
-    "Grade Delusion is the funny side of student life: student memes, a delusion generator and a very unscientific delusion test. 100% confidence, 0% evidence.",
+    "Grade Delusion is a student meme, humour and interactive entertainment project: student memes, a delusion generator and a very unscientific delusion test.",
   url: "https://grade-delusion.vercel.app",
   handle: "@gradedelusion",
   email: "gradedelusion.sg@gmail.com",
+  gradeSolutionName: "Grade Solution Learning Centre",
   gradeSolutionUrl: "https://gradesolution.com.sg",
   socials: {
     instagram: "https://www.instagram.com/gradedelusion/",

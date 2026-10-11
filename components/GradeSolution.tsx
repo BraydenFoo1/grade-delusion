@@ -24,8 +24,9 @@ export default function GradeSolution() {
             side.
           </h2>
           <p className="mt-6 max-w-lg text-lg leading-relaxed">
-            Grade Delusion is a fun brand created by <b>Grade Solution</b> — because every student needs both academic
-            support and a little humour.
+            Grade Delusion is the student meme and culture project of <b>{site.gradeSolutionName}</b>. It isn&apos;t a
+            separate tuition centre: Grade Delusion is just for laughs, and Grade Solution provides the actual academic
+            support. Every student needs both.
           </p>
           <a
             href={site.gradeSolutionUrl}
