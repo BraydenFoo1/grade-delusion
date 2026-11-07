@@ -1,0 +1,414 @@
+/* ------------------------------------------------------------------
+   Platform design tokens + components (student portal and admin).
+
+   The marketing site is bright and loud; the platform is where people read, write and review, so it
+   keeps the same bones (thick ink borders, hard offset shadow on primary content, sun / mint / hot /
+   volt) but calms down: sentence-case controls in the UI sans, display face for page titles only.
+
+   Light and dark come from ONE token set using light-dark(). It follows the system by default and the
+   toggle pins it with html[data-pf-theme]. Brand colours (sun, mint, hot, volt) are fixed in both themes,
+   so text on them is always the constant --pf-ink.
+------------------------------------------------------------------- */
+html:has([data-platform]) {
+  color-scheme: light dark;
+}
+html[data-pf-theme="light"]:has([data-platform]) {
+  color-scheme: light;
+}
+html[data-pf-theme="dark"]:has([data-platform]) {
+  color-scheme: dark;
+}
+
+body:has([data-platform]) {
+  --pf-ink: #0b0b0f; /* text that sits on sun / mint / hot, in both themes */
+  --pf-bg: light-dark(#fffdf5, #0f0e14);
+  --pf-surface: light-dark(#ffffff, #1a1921);
+  --pf-sunken: light-dark(#f6f1dd, #14131a); /* sidebars, table headers, quiet panels */
+  --pf-fg: light-dark(#0b0b0f, #f6f3e7);
+  --pf-muted: light-dark(#55524a, #b4b0a4);
+  --pf-line: light-dark(#0b0b0f, #e9e5d6);
+  --pf-line-soft: light-dark(rgb(11 11 15 / 0.16), rgb(246 243 231 / 0.16));
+  --pf-shadow: light-dark(#0b0b0f, rgb(246 243 231 / 0.2));
+  --pf-error: light-dark(#b00b52, #ff8dbb);
+  --pf-link: light-dark(#1d3bd6, #9db0ff);
+  --pf-focus: light-dark(#2b4dff, #ffe11a);
+  background: var(--pf-bg);
+  color: var(--pf-fg);
+}
+
+[data-platform] {
+  min-height: 100dvh;
+  background: var(--pf-bg);
+  color: var(--pf-fg);
+  scrollbar-color: var(--pf-line) var(--pf-bg);
+  font-variant-numeric: tabular-nums;
+}
+[data-platform] :focus-visible {
+  outline: 3px solid var(--pf-focus);
+  outline-offset: 2px;
+}
+[data-platform] input,
+[data-platform] textarea {
+  caret-color: var(--hot);
+}
+
+@layer components {
+  /* Surfaces */
+  .pf-card {
+    background: var(--pf-surface);
+    border: 2px solid var(--pf-line);
+    border-radius: 16px;
+  }
+  .pf-lift {
+    box-shadow: 4px 4px 0 var(--pf-shadow);
+  }
+  .pf-panel {
+    background: var(--pf-sunken);
+    border: 2px solid var(--pf-line-soft);
+    border-radius: 16px;
+  }
+  .pf-hair {
+    border-color: var(--pf-line-soft);
+  }
+  .pf-muted {
+    color: var(--pf-muted);
+  }
+  .pf-error-text {
+    color: var(--pf-error);
+  }
+  .pf-link {
+    color: var(--pf-link);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+  .pf-link:hover {
+    text-decoration-color: var(--hot);
+  }
+
+  /* Buttons: one shape everywhere (see craft rules: same vocabulary on every screen) */
+  .pf-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--pf-fg);
+    background: var(--pf-surface);
+    border: 2px solid var(--pf-line);
+    border-radius: 12px;
+    box-shadow: 0 0 0 var(--pf-shadow);
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+    transition:
+      transform 0.16s cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 0.16s cubic-bezier(0.2, 0.8, 0.2, 1),
+      background-color 0.16s ease;
+  }
+  .pf-btn:hover:not(:disabled):not([aria-disabled="true"]) {
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 var(--pf-shadow);
+  }
+  .pf-btn:active:not(:disabled):not([aria-disabled="true"]) {
+    transform: translate(1px, 1px);
+    box-shadow: 0 0 0 var(--pf-shadow);
+  }
+  .pf-btn:disabled,
+  .pf-btn[aria-disabled="true"] {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  .pf-btn[data-loading="true"] {
+    cursor: progress;
+  }
+  .pf-btn-primary {
+    background: var(--sun);
+    color: var(--pf-ink);
+    border-color: var(--pf-ink);
+  }
+  .pf-btn-ok {
+    background: var(--mint);
+    color: var(--pf-ink);
+    border-color: var(--pf-ink);
+  }
+  .pf-btn-danger {
+    background: var(--hot);
+    color: var(--pf-ink);
+    border-color: var(--pf-ink);
+  }
+  .pf-btn-ghost {
+    background: transparent;
+    border-color: transparent;
+  }
+  .pf-btn-ghost:hover:not(:disabled) {
+    background: var(--pf-sunken);
+    border-color: var(--pf-line-soft);
+    box-shadow: none;
+    transform: none;
+  }
+  .pf-btn-sm {
+    min-height: 2.25rem;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.875rem;
+    border-radius: 10px;
+  }
+
+  /* Form controls */
+  .pf-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+  }
+  .pf-input {
+    display: block;
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.55rem 0.8rem;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--pf-fg);
+    background: var(--pf-surface);
+    border: 2px solid var(--pf-line);
+    border-radius: 12px;
+  }
+  .pf-input::placeholder {
+    color: var(--pf-muted);
+    opacity: 1;
+  }
+  .pf-input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .pf-input[aria-invalid="true"] {
+    border-color: var(--pf-error);
+    background: color-mix(in srgb, var(--hot) 8%, var(--pf-surface));
+  }
+  textarea.pf-input {
+    min-height: 8rem;
+    resize: vertical;
+    line-height: 1.55;
+  }
+
+  /* Chips (filters, tabs) and badges (status) */
+  .pf-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 2.25rem;
+    padding: 0.25rem 0.8rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--pf-fg);
+    background: var(--pf-surface);
+    border: 2px solid var(--pf-line);
+    border-radius: 999px;
+    text-decoration: none;
+    transition: background-color 0.16s ease, color 0.16s ease;
+  }
+  .pf-chip:hover {
+    background: var(--pf-sunken);
+  }
+  .pf-chip[aria-current="true"],
+  .pf-chip[aria-pressed="true"] {
+    background: var(--pf-fg);
+    color: var(--pf-bg);
+  }
+  .pf-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.1rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--pf-ink);
+    background: var(--pf-sunken);
+    border: 2px solid var(--pf-ink);
+    border-radius: 8px;
+    white-space: nowrap;
+  }
+  .pf-badge-pending {
+    background: var(--sun);
+  }
+  .pf-badge-approved {
+    background: var(--mint);
+  }
+  .pf-badge-rejected {
+    background: var(--hot);
+  }
+  .pf-badge-removed {
+    background: #d9d4c4;
+  }
+  .pf-badge-info {
+    background: #cdd6ff;
+  }
+
+  /* Inline notices (success / error / info). No coloured side border: the icon and tint carry meaning. */
+  .pf-notice {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.9375rem;
+    border: 2px solid var(--pf-line);
+    border-radius: 12px;
+    background: var(--pf-surface);
+  }
+  .pf-notice-error {
+    background: color-mix(in srgb, var(--hot) 14%, var(--pf-surface));
+  }
+  .pf-notice-ok {
+    background: color-mix(in srgb, var(--mint) 24%, var(--pf-surface));
+  }
+  .pf-notice-info {
+    background: color-mix(in srgb, var(--sun) 24%, var(--pf-surface));
+  }
+
+  /* User text: preserve line breaks, never overflow, never interpreted as HTML */
+  .pf-prose {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    line-height: 1.6;
+    max-width: 68ch;
+  }
+
+  /* Loading placeholders */
+  .pf-skeleton {
+    background: linear-gradient(
+      100deg,
+      var(--pf-sunken) 30%,
+      color-mix(in srgb, var(--pf-line-soft) 60%, var(--pf-sunken)) 50%,
+      var(--pf-sunken) 70%
+    );
+    background-size: 220% 100%;
+    border-radius: 10px;
+    animation: pf-shimmer 1.4s linear infinite;
+  }
+
+  /* Data tables: dense, scannable */
+  .pf-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.9375rem;
+  }
+  .pf-table th {
+    text-align: left;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--pf-muted);
+    background: var(--pf-sunken);
+    padding: 0.55rem 0.75rem;
+    border-bottom: 2px solid var(--pf-line-soft);
+    white-space: nowrap;
+  }
+  .pf-table td {
+    padding: 0.65rem 0.75rem;
+    border-bottom: 1px solid var(--pf-line-soft);
+    vertical-align: top;
+  }
+  .pf-table tr:last-child td {
+    border-bottom: 0;
+  }
+
+  /* Page title: the one place the display face is used inside the platform */
+  .pf-title {
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    text-wrap: balance;
+  }
+  @media (min-width: 640px) {
+    .pf-title {
+      font-size: 2.75rem;
+    }
+  }
+}
+
+@keyframes pf-shimmer {
+  to {
+    background-position: -220% 0;
+  }
+}
+
+/* Content users can't read the text of (removed) */
+.pf-removed {
+  font-style: italic;
+  color: var(--pf-muted);
+}
+
+/* ------------------------------------------------------------------
+   Activity chart (components/platform/admin/ActivityChart.tsx).
+   Series colours validated with the dataviz validator against the card surfaces,
+   strictest all-pairs test, both themes. Series order is fixed: it never follows rank.
+------------------------------------------------------------------- */
+.pf-chart {
+  --c1: light-dark(#2b4dff, #6f86ff); /* sign-ups */
+  --c2: light-dark(#d6126a, #ff2d87); /* submissions */
+  --c3: light-dark(#b07d00, #b8860b); /* approvals */
+}
+.pf-chart text {
+  font-family: var(--font-sans);
+}
+.pf-chart-grid {
+  stroke: var(--pf-line-soft);
+  stroke-width: 1;
+}
+.pf-chart-tick {
+  fill: var(--pf-muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.pf-chart-value {
+  fill: var(--pf-fg);
+  font-size: 12px;
+  font-weight: 700;
+}
+.pf-chart-hover {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+.pf-chart-col:hover .pf-chart-hover,
+.pf-chart-col:focus-visible .pf-chart-hover {
+  opacity: 1;
+}
+.pf-chart-col {
+  outline: none;
+}
+.pf-chart-cross {
+  stroke: var(--pf-line);
+  stroke-width: 1;
+  opacity: 0.45;
+}
+.pf-chart-tip {
+  fill: var(--pf-surface);
+  stroke: var(--pf-line);
+  stroke-width: 2;
+}
+.pf-chart-tipTitle {
+  fill: var(--pf-muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+.pf-chart-tipRow {
+  fill: var(--pf-fg);
+  font-size: 12px;
+}
+.pf-chart-tipVal {
+  fill: var(--pf-fg);
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}

@@ -35,7 +35,7 @@ export const business = {
 } as const;
 
 export const legal = {
-  lastUpdated: "5 October 2026",
+  lastUpdated: "7 November 2026",
   privacy: "/privacy",
   terms: "/terms",
 } as const;
@@ -46,6 +46,7 @@ export const navLinks = [
   { href: "#generator", label: "Generator" },
   { href: "#test", label: "The Test" },
   { href: "#about", label: "About" },
+  { href: "/community", label: "Community" },
   { href: "#socials", label: "Socials" },
 ] as const;
 
