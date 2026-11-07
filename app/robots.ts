@@ -4,14 +4,16 @@ import { site } from "@/lib/site";
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      { userAgent: "Claude-User", disallow: "/" },
-      { userAgent: "Claude-SearchBot", disallow: "/" },
-      { userAgent: "ClaudeBot", disallow: "/" },
-      { userAgent: "ChatGPT-User", disallow: "/" }, 
-      { userAgent: "OAI-SearchBot", disallow: "/" }, 
-      { userAgent: "GPTBot", disallow: "/" },
+      // Search & user-requested fetchers: allowed (discoverability)
+      { userAgent: "Googlebot", allow: "/" },
+      { userAgent: "OAI-SearchBot", allow: "/" },
+      { userAgent: "Claude-SearchBot", allow: "/" },
+      { userAgent: "Claude-User", allow: "/" },
+      // AI training opt-outs
       { userAgent: "Google-Extended", disallow: "/" },
-      { userAgent: "Google-Agent", disallow: "/" },
+      { userAgent: "GPTBot", disallow: "/" },
+      { userAgent: "ClaudeBot", disallow: "/" },
+      // Everyone else, incl. ChatGPT-User and Google-Agent
       { userAgent: "*", allow: "/" },
     ],
     sitemap: `${site.url}/sitemap.xml`,

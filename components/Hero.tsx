@@ -35,7 +35,8 @@ export default function Hero() {
       <Floating className="bottom-16 left-[48%] hidden text-5xl lg:block" dur={6} delay={0.5}>
         🧠
       </Floating>
-      <Floating decorative={false} className="right-5 top-[42%] z-10 text-4xl sm:right-10" dur={5.5} delay={1.2}>
+      {/* Beside the heading on phones and tablets, where 42% of the hero lands on the paragraph. */}
+      <Floating decorative={false} className="right-5 top-44 z-10 text-4xl sm:right-10 lg:top-[42%]" dur={5.5} delay={1.2}>
         <EggReveal id="skull" label="Suspicious skull" message="This skull has seen your study timetable.">
           <span aria-hidden>💀</span>
         </EggReveal>
@@ -117,7 +118,7 @@ export default function Hero() {
                   style={vars({ "--dur": `${5 + i * 0.8}s`, "--delay": `${i * 0.5}s` })}
                 >
                   <div
-                    className={cn("bubble pop max-w-sm", t.tilt)}
+                    className={cn("bubble pop max-w-sm transition-[rotate] duration-300 hover:rotate-0", t.tilt)}
                     style={vars({ "--d": `${350 + i * 380}ms` })}
                   >
                     <p className="pr-6 text-xl font-bold sm:text-2xl">{t.q}</p>

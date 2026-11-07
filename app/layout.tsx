@@ -37,13 +37,7 @@ export const metadata: Metadata = {
     title: site.homeTitle,
     description: site.description,
   },
-  // Replaced { index: true, follow: true } to block AI caching & search snippets
-  robots: { 
-    index: true, 
-    follow: false,
-    nocache: true,
-    noarchive: true
-  },
+  robots: { index: true, follow: true },
   verification: { google: "q13y0ZZIKCU2SJeS9nFhPCyXBg1kw4aqyFTnWFzmZrY" },
 };
 
@@ -64,8 +58,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <style>{`.reveal{opacity:1!important;translate:none!important}.reveal .hl{background-size:100% 42%!important}.reveal .write{clip-path:none!important}.reveal .draw path{stroke-dashoffset:0!important}.reveal .brush::before{transform:none!important}`}</style>
         </noscript>
       </head>
-      {/* Added data-nosnippet to completely hide text inside the body from search engine AI tools */}
-      <body data-nosnippet className="bg-paper font-sans text-ink antialiased">
+      <body className="bg-paper font-sans text-ink antialiased">
         {children}
       </body>
     </html>

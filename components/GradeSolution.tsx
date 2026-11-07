@@ -13,7 +13,7 @@ const rows = [
 export default function GradeSolution() {
   return (
     <section id="about" aria-labelledby="about-title" className="bg-paper py-24 sm:py-28">
-      <div className="mx-auto grid max-w-6xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-2">
+      <div className="mx-auto grid max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-2">
         <Reveal>
           <Eyebrow n="06">the fine print</Eyebrow>
           <h2 id="about-title" className="font-display text-[clamp(2.4rem,6vw,4.25rem)] uppercase leading-[0.92]">
@@ -40,7 +40,7 @@ export default function GradeSolution() {
         </Reveal>
 
         <Reveal delay={150}>
-          <table className="w-full -rotate-1 overflow-hidden rounded-3xl border-[3px] border-ink bg-paper text-left shadow-[8px_8px_0_var(--ink)] [border-collapse:separate] [border-spacing:0]">
+          <table className="w-full -rotate-1 overflow-hidden transition-[rotate] duration-300 hover:rotate-0 rounded-3xl border-[3px] border-ink bg-paper text-left shadow-[8px_8px_0_var(--ink)] [border-collapse:separate] [border-spacing:0]">
             <caption className="sr-only">Grade Solution versus Grade Delusion</caption>
             <thead>
               <tr className="font-display text-base uppercase tracking-wide sm:text-xl">

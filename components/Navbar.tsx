@@ -142,7 +142,7 @@ export default function Navbar() {
                 <a
                   href={l.path}
                   tabIndex={open ? 0 : -1}
-                  className="inline-block rounded-full border-2 border-ink bg-paper px-3 py-1.5 text-sm font-bold"
+                  className="inline-block rounded-full border-2 border-ink bg-paper px-3 py-1.5 text-sm font-bold transition-colors hover:bg-ink hover:text-sun"
                 >
                   {l.label}
                 </a>
