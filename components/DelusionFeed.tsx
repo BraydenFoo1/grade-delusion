@@ -310,7 +310,7 @@ export default function DelusionFeed() {
 
   return (
     <section id="feed" aria-labelledby="feed-title" className="dots relative bg-paper py-24 sm:py-32">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <Reveal>
             <Eyebrow n="03">certified relatable</Eyebrow>
@@ -324,7 +324,7 @@ export default function DelusionFeed() {
           </Reveal>
 
           <Reveal delay={150}>
-            <div role="group" aria-label="Filter memes" className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-2 lg:mx-0 lg:max-w-md lg:flex-wrap lg:justify-end lg:overflow-visible lg:px-0">
+            <div role="group" aria-label="Filter memes" className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-2 lg:mx-0 lg:max-w-xl lg:flex-wrap lg:justify-end lg:overflow-visible lg:px-0">
               {filters.map((f) => (
                 <button
                   key={f.key}

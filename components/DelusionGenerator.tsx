@@ -6,52 +6,49 @@ import { Note, Warning } from "./eggs/Decor";
 import { FoundOnMount, StarEgg } from "./eggs/Interactive";
 import { BurstLayer, Eyebrow, Floating, Splash } from "./ui/Doodles";
 import { useBurst, useClipboard } from "@/lib/hooks";
+import {
+  DEFAULT_SCENARIO,
+  SCENARIOS,
+  createLineBag,
+  rollConfidence,
+  scenarioById,
+  severity,
+  type ScenarioId,
+} from "@/lib/delusions";
+import { homeUrl } from "@/lib/site";
 import { cn, pick } from "@/lib/utils";
-
-const DELUSIONS = [
-  "I only need to study the night before.",
-  "The teacher definitely won't test this.",
-  "I can finish the entire syllabus tonight.",
-  "I'll remember this without writing it down.",
-  "I definitely got at least 80%.",
-  "The exam looked easier than expected.",
-  "I'll start studying tomorrow.",
-  "Five more minutes of TikTok, then I'll lock in.",
-  "I understood the lesson, so I don't need to practise.",
-  "If I sleep with the textbook under my pillow, it counts.",
-  "Everyone else didn't study either. Teacher cannot scold the class for sure. Confirm+Chop",
-  "Rewriting my notes in nice colours is basically studying.",
-  "I don't need the formula sheet. I AM the formula sheet.",
-  "I'll just revise during lunch before the exam.",
-  "One 10-minute YouTube video = chapter mastered.",
-  "My handwriting is so neat the examiner will give bonus marks.",
-  "Making a study timetable is the hardest part. Done. Basically finished.",
-  "I'll study on the bus. (I will be asleep on the bus.)",
-];
 
 const STEPS = ["Consulting the vibes…", "Ignoring the syllabus…", "Inflating confidence…", "Removing evidence…"];
 const CONFETTI = ["⭐", "💀", "🧠", "✨", "😭", "🔥", "📚"];
-const IDLE = "Press the button. Embrace the lie.";
+const IDLE = "Pick your situation. Press the button. Embrace the lie.";
+const SHARE_URL = `${homeUrl}#generator`;
 
 type Phase = "idle" | "spinning" | "done";
 
-function severity(rating: number) {
-  if (rating >= 97) return "Legendary";
-  if (rating >= 90) return "Extreme";
-  return "Severe";
+/** One generated result. Confidence is rolled once when the result is created, so it never changes on re-render. */
+type Result = { text: string; scenarioId: ScenarioId; confidence: number };
+
+/** Skip the slot-machine reel for reduced-motion users and when the site's "Pause animations" button is on. */
+function shouldSkipReel() {
+  return (
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+    document.documentElement.dataset.motion === "paused"
+  );
 }
 
 export default function DelusionGenerator() {
+  const [scenarioId, setScenarioId] = useState<ScenarioId>(DEFAULT_SCENARIO);
   const [phase, setPhase] = useState<Phase>("idle");
-  const [text, setText] = useState(IDLE);
+  const [reelText, setReelText] = useState("");
+  const [result, setResult] = useState<Result | null>(null);
   const [step, setStep] = useState(0);
-  const [rating, setRating] = useState(0);
   const [count, setCount] = useState(0);
-  const last = useRef(-1);
+  const bags = useRef(new Map<ScenarioId, () => string>());
   const interval = useRef<number | undefined>(undefined);
   const timeout = useRef<number | undefined>(undefined);
   const { parts, fire } = useBurst();
   const { copied, copy } = useClipboard();
+  const shareFallback = useClipboard();
 
   useEffect(
     () => () => {
@@ -61,32 +58,68 @@ export default function DelusionGenerator() {
     [],
   );
 
+  // Each scenario keeps its own no-repeat queue for the whole visit.
+  const draw = (id: ScenarioId) => {
+    let bag = bags.current.get(id);
+    if (!bag) {
+      bag = createLineBag(scenarioById(id).lines);
+      bags.current.set(id, bag);
+    }
+    return bag();
+  };
+
+  const finish = (next: Result) => {
+    setResult(next);
+    setPhase("done");
+    setCount((c) => c + 1);
+    fire(CONFETTI, 18, 230);
+  };
+
   const generate = () => {
     if (phase === "spinning") return;
-    let next: number;
-    do next = Math.floor(Math.random() * DELUSIONS.length);
-    while (next === last.current);
-    last.current = next;
+    const next: Result = { text: draw(scenarioId), scenarioId, confidence: rollConfidence() };
+    if (shouldSkipReel()) {
+      finish(next);
+      return;
+    }
 
+    const pool = scenarioById(scenarioId).lines;
     setPhase("spinning");
+    setStep(0);
+    setReelText(pick(pool));
     let tick = 0;
     interval.current = window.setInterval(() => {
       tick++;
-      setText(pick(DELUSIONS));
+      setReelText(pick(pool));
       setStep(Math.floor(tick / 5) % STEPS.length);
     }, 65);
 
     timeout.current = window.setTimeout(() => {
       window.clearInterval(interval.current);
-      setText(DELUSIONS[next]);
-      setRating(82 + Math.floor(Math.random() * 18));
-      setPhase("done");
-      setCount((c) => c + 1);
-      fire(CONFETTI, 18, 230);
+      finish(next);
     }, 1300);
   };
 
   const spinning = phase === "spinning";
+  const ready = phase === "done" && result !== null;
+  const resultScenario = result ? scenarioById(result.scenarioId) : null;
+  const shareText = result
+    ? `My delusion of the day: “${result.text}” Confidence: ${result.confidence}%. Evidence: 0%. — Grade Delusion™`
+    : "";
+
+  // Native share sheet where supported; otherwise (or if sharing fails) copy the text and link.
+  const share = async () => {
+    if (!result) return;
+    if (typeof navigator.share === "function") {
+      try {
+        await navigator.share({ title: "Grade Delusion", text: shareText, url: SHARE_URL });
+        return;
+      } catch (err) {
+        if (err instanceof DOMException && err.name === "AbortError") return; // user closed the share sheet
+      }
+    }
+    await shareFallback.copy(`${shareText} ${SHARE_URL}`);
+  };
 
   return (
     <section
@@ -149,13 +182,43 @@ export default function DelusionGenerator() {
               />
             </div>
 
-            <div
-              aria-live="polite"
-              aria-busy={spinning}
-              className="scanlines relative mt-4 grid min-h-[15rem] place-items-center overflow-visible rounded-2xl border-[3px] border-ink bg-ink px-5 py-10 text-center sm:min-h-[16rem] sm:px-8"
-            >
+            <fieldset disabled={spinning} className={cn("mt-4 transition-opacity", spinning && "opacity-60")}>
+              <legend className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-ink/70">
+                Pick your situation
+              </legend>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {SCENARIOS.map((s) => (
+                  <label
+                    key={s.id}
+                    className={cn(
+                      "inline-flex cursor-pointer items-center gap-1.5 rounded-full border-2 border-ink bg-paper px-3 py-1.5 text-sm font-bold transition-colors hover:bg-sun/50",
+                      "has-[:checked]:bg-ink has-[:checked]:text-sun",
+                      "has-[:focus-visible]:outline-[3px] has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-volt has-[:focus-visible]:outline-solid",
+                    )}
+                  >
+                    <input
+                      type="radio"
+                      name="delusion-scenario"
+                      value={s.id}
+                      checked={scenarioId === s.id}
+                      onChange={() => setScenarioId(s.id)}
+                      className="sr-only"
+                    />
+                    <span aria-hidden>{s.emoji}</span>
+                    {s.label}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <div className="scanlines relative mt-4 grid min-h-[15rem] place-items-center overflow-visible rounded-2xl border-[3px] border-ink bg-ink px-5 py-10 text-center sm:min-h-[16rem] sm:px-8">
+              {ready && resultScenario && (
+                <span className="absolute left-3 top-3 rounded-full border-2 border-paper/40 px-2.5 py-0.5 text-[0.7rem] font-bold uppercase tracking-wider text-paper/85">
+                  <span aria-hidden>{resultScenario.emoji}</span> {resultScenario.label}
+                </span>
+              )}
               <p
-                key={phase === "done" ? text : phase}
+                key={phase === "done" ? `result-${count}` : phase}
                 className={cn(
                   "font-marker text-[1.6rem] leading-snug text-sun sm:text-3xl",
                   spinning && "opacity-70 blur-[1.5px]",
@@ -163,18 +226,29 @@ export default function DelusionGenerator() {
                   phase === "idle" && "text-paper/80",
                 )}
               >
-                {phase === "idle" ? text : `“${text}”`}
+                {spinning ? `“${reelText}”` : ready ? `“${result.text}”` : IDLE}
               </p>
-              {phase === "done" && (
+              {ready && (
                 <span className="stamp slam absolute -bottom-5 right-4 bg-hot text-sm text-ink [--d:250ms] sm:text-base">
-                  Delusion rating: {rating}%
+                  Confidence: {result.confidence}%
                 </span>
               )}
               <BurstLayer parts={parts} />
             </div>
 
+            {/* Announces only the final result, never the flickering reel. */}
+            <p className="sr-only" aria-live="polite">
+              {ready
+                ? `Your delusion: ${result.text} Confidence ${result.confidence} percent. Evidence 0 percent.`
+                : ""}
+            </p>
+
             <p className="mt-6 h-5 text-center font-mono text-xs font-bold uppercase tracking-[0.2em] text-ink/70">
-              {spinning ? STEPS[step] : phase === "done" ? `Severity: ${severity(rating)}` : "Status: ready to lie to you"}
+              {spinning
+                ? STEPS[step]
+                : ready
+                  ? `Evidence: 0% · Severity: ${severity(result.confidence)}`
+                  : "Status: ready to lie to you"}
             </p>
 
             <button
@@ -183,20 +257,28 @@ export default function DelusionGenerator() {
               disabled={spinning}
               className="brutal-btn wiggle-hover mt-4 w-full justify-center bg-sun py-5 text-lg sm:text-xl"
             >
-              {spinning ? "Generating…" : "Give me a delusion"}
+              {spinning ? "Generating…" : result ? "Give me another delusion" : "Give me a delusion"}
               <span aria-hidden>{spinning ? "🌀" : "🎰"}</span>
             </button>
 
-            <div className="mt-4 flex items-center justify-between gap-3 text-sm">
+            <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
               <button
                 type="button"
-                disabled={phase !== "done"}
-                onClick={() => copy(`My delusion of the day: “${text}” — Grade Delusion™`)}
+                disabled={!ready}
+                onClick={() => copy(shareText)}
                 className="whitespace-nowrap rounded-full border-2 border-ink px-4 py-2 font-bold uppercase tracking-wide transition-colors hover:bg-ink hover:text-paper disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-ink"
               >
                 {copied ? "Copied ✓" : "Copy delusion"}
               </button>
-              <span className="text-right font-hand text-lg leading-tight sm:text-xl">results not guaranteed 🙃</span>
+              <button
+                type="button"
+                disabled={!ready}
+                onClick={share}
+                className="whitespace-nowrap rounded-full border-2 border-ink px-4 py-2 font-bold uppercase tracking-wide transition-colors hover:bg-ink hover:text-paper disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-ink"
+              >
+                {shareFallback.copied ? "Link copied ✓" : "Share"} <span aria-hidden>↗</span>
+              </button>
+              <span className="ml-auto text-right font-hand text-lg leading-tight sm:text-xl">results not guaranteed 🙃</span>
             </div>
           </div>
           <Warning className="ml-auto mt-6 flex w-max text-ink">This statement has not been peer reviewed.</Warning>

@@ -19,6 +19,8 @@ export default function Logo({
     >
       <a href={href} onClick={onClick} aria-label="Grade Delusion home" className="group inline-flex items-center gap-1.5">
         <span>Grade</span>
+        {/* A real space, so the visible text reads "Grade Delusion" and matches the link's accessible name. Invisible in the flex layout. */}
+        {" "}
         <span className="inline-block -rotate-2 rounded-md bg-ink px-1.5 pb-0.5 pt-1 text-sun transition-transform duration-200 group-hover:rotate-2 group-hover:scale-105">
           Delusion
         </span>

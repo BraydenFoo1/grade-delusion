@@ -5,6 +5,7 @@ import Reveal from "./ui/Reveal";
 import { MiniStamp, Note, Warning } from "./eggs/Decor";
 import { EggReveal } from "./eggs/Interactive";
 import { Arrow, Eyebrow, Sparkle } from "./ui/Doodles";
+import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const cards = [
@@ -114,6 +115,10 @@ export default function WhatIs() {
             <p className="text-2xl font-medium leading-snug sm:text-3xl">
               Grade Delusion is the place for every student who has ever walked out of an exam saying,{" "}
               <span className="font-marker text-hot">“I think I did pretty well.”</span>
+            </p>
+            <p className="mt-6 max-w-2xl text-lg font-medium leading-relaxed">
+              Grade Delusion is a student meme and culture project created by {site.gradeSolutionName}: student memes, a
+              delusion generator and a very unscientific delusion test, all just for laughs.
             </p>
           </Reveal>
           <Reveal delay={150} className="lg:col-span-5">

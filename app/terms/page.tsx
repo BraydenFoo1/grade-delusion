@@ -5,7 +5,7 @@ import { business, legal, site } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "Terms of Use",
-  description: "The rules for using Grade Delusion and sending us memes.",
+  description: "The rules for using Grade Delusion, joining the community and sending us memes.",
   path: legal.terms,
 });
 
@@ -41,7 +41,14 @@ export default function TermsPage() {
             If you send us a meme, it must be yours, it must be kind, and we can post it. You can ask us to take it down
             any time.
           </li>
-          <li>Under 13? Get a parent or guardian&apos;s OK before sending us anything.</li>
+          <li>
+            Community accounts are for people aged 13 and over. Under 13? Don&apos;t sign up, and get a parent or
+            guardian&apos;s OK before emailing us anything.
+          </li>
+          <li>
+            Posts in the community are read by a moderator first. Be kind, and don&apos;t share personal details. We
+            can remove content and suspend accounts that break the rules.
+          </li>
         </ul>
       }
     >
@@ -68,8 +75,8 @@ export default function TermsPage() {
         .
       </p>
       <p>
-        The meme posts on this site are examples written by us. The reaction buttons only show your own taps; they
-        aren&apos;t real engagement numbers and aren&apos;t sent anywhere.
+        The meme posts on the home page are examples written by us, and the reaction buttons there only show your own
+        taps; they aren&apos;t real engagement numbers. Posts in the community are written by members, not by us.
       </p>
 
       <h2 id="our-content">3. Our content</h2>
@@ -118,19 +125,60 @@ export default function TermsPage() {
         content at our discretion.
       </p>
 
-      <h2 id="respect">5. Using the site respectfully</h2>
+      <h2 id="community">5. Accounts and the community</h2>
+      <p>
+        You can browse the community without an account. To post, comment, react or report, you need one.
+      </p>
+      <ul>
+        <li>
+          <strong>You must be 13 or older</strong> and confirm it when you join. Please give a real e-mail address you
+          control, keep your password to yourself and tell us if someone else gets into your account. You&apos;re
+          responsible for what happens under your account.
+        </li>
+        <li>
+          <strong>Be kind.</strong> Laugh with students, not at them. No bullying, harassment, hate, sexual content,
+          threats, or content that encourages cheating or hurting yourself or others.
+        </li>
+        <li>
+          <strong>Keep it private.</strong> No real names, faces, schools, phone numbers, e-mail addresses or other
+          personal details (yours or anyone else&apos;s), and no links or advertising.
+        </li>
+        <li>
+          <strong>Make it yours.</strong> Post only your own words. You keep ownership of what you post, and you give us
+          a free, non-exclusive permission to display, crop and share it in the community and on our social media for as
+          long as it is up.
+        </li>
+        <li>
+          <strong>Report in good faith.</strong> Use the report button for content that breaks these rules. Reporting
+          something just to annoy someone is itself misuse.
+        </li>
+      </ul>
+      <p>
+        <strong>How moderation works.</strong> New posts are reviewed by a moderator before they appear. We may approve,
+        reject or remove any post or comment, suspend or ban accounts, limit how often you can post, and block certain
+        words, at our discretion and without notice where needed to keep the community safe. We try to review promptly
+        but can&apos;t promise a timeframe. If you think we got it wrong, e-mail {contact} and we&apos;ll take a second
+        look.
+      </p>
+      <p>
+        <strong>Leaving.</strong> You can delete your own posts and comments, or your whole account, in the app
+        whenever you like. Posts that weren&apos;t approved are deleted about 30 days after the decision. See the{" "}
+        <a href={legal.privacy}>Privacy Policy</a> for what we keep.
+      </p>
+
+      <h2 id="respect">6. Using the site respectfully</h2>
       <p>
         Don&apos;t use Grade Delusion™ content to bully or harass anyone, and don&apos;t try to disrupt, hack or misuse
         the website. If we catch anyone misusing the wbesite, we would not hesitate to ban the user's IP address which may affect others, so please do not attempt to misuse it as we take it very seriously. Furthermore, it is a punishable offence under the Computer Misuse Act (CMA)
       </p>
 
-      <h2 id="links">6. Links to other sites</h2>
+      <h2 id="links">7. Links to other sites</h2>
       <p>
         We link to Instagram, YouTube, Facebook and Grade Solution. Those sites have their own terms and privacy policies,
         and we&apos;re not responsible for them.
       </p>
 
-      <h2 id="liability">7. No guarantees</h2>
+      <h2 id="liability">8. No guarantees</h2>
       <p>
         We provide Grade Delusion™ &quot;as is&quot;, for fun. We try to keep it working and accurate, but we don&apos;t
         promise it will always be available or error-free. To the extent the law allows, we aren&apos;t liable for any
@@ -138,7 +186,7 @@ export default function TermsPage() {
         relatable. Nothing in these terms limits rights you have under law that can&apos;t be excluded.
       </p>
 
-      <h2 id="credits">8. Credits and licences</h2>
+      <h2 id="credits">9. Credits and licences</h2>
       <p>The illustrations and doodles on this site are original artwork. Fonts used:</p>
       <ul>
         {fonts.map((f) => (
@@ -157,10 +205,10 @@ export default function TermsPage() {
         don&apos;t imply endorsement.
       </p>
 
-      <h2 id="law">9. Governing law</h2>
+      <h2 id="law">10. Governing law</h2>
       <p>These terms are governed by the laws of Singapore.</p>
 
-      <h2 id="changes">10. Changes and contact</h2>
+      <h2 id="changes">11. Changes and contact</h2>
       <p>
         If we update these terms, we&apos;ll change the date at the top of this page. Questions? Email {contact}.
       </p>

@@ -11,7 +11,7 @@ const grotesk = Space_Grotesk({ subsets: ["latin"], variable: "--nf-grotesk", di
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — ${site.tagline}`,
+    default: site.homeTitle,
     template: `%s · ${site.name}`,
   },
   description: site.description,
@@ -28,22 +28,16 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: site.name,
-    title: `${site.name} — ${site.tagline}`,
-    description: "100% confidence. 0% evidence. Memes, mini-games and a delusion test for every student.",
+    title: site.homeTitle,
+    description: site.description,
     locale: "en_SG",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — ${site.tagline}`,
-    description: "100% confidence. 0% evidence.",
+    title: site.homeTitle,
+    description: site.description,
   },
-  // Replaced { index: true, follow: true } to block AI caching & search snippets
-  robots: { 
-    index: true, 
-    follow: false,
-    nocache: true,
-    noarchive: true
-  },
+  robots: { index: true, follow: true },
   verification: { google: "q13y0ZZIKCU2SJeS9nFhPCyXBg1kw4aqyFTnWFzmZrY" },
 };
 
@@ -64,8 +58,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <style>{`.reveal{opacity:1!important;translate:none!important}.reveal .hl{background-size:100% 42%!important}.reveal .write{clip-path:none!important}.reveal .draw path{stroke-dashoffset:0!important}.reveal .brush::before{transform:none!important}`}</style>
         </noscript>
       </head>
-      {/* Added data-nosnippet to completely hide text inside the body from search engine AI tools */}
-      <body data-nosnippet className="bg-paper font-sans text-ink antialiased">
+      <body className="bg-paper font-sans text-ink antialiased">
         {children}
       </body>
     </html>
