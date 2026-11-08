@@ -4,7 +4,8 @@ import { actorOrThrow } from "../auth/session";
 import { getDb } from "../db/client";
 import type { AppDb } from "../db/types";
 import type { Actor } from "../platform/actor";
-import { type ActionResult, fail, ok } from "../platform/errors";
+import { type ActionResult, AppError, fail, ok } from "../platform/errors";
+import { isPublicBeta } from "../platform/mode";
 
 type Level = "user" | "participant" | "staff" | "admin";
 
@@ -17,6 +18,8 @@ type Level = "user" | "participant" | "staff" | "admin";
  * returned as a generic error so internals never reach the browser.
  */
 export async function run<T>(level: Level, fn: (ctx: { db: AppDb; actor: Actor }) => Promise<T>): Promise<ActionResult<T>> {
+  // Public beta: nothing that needs an account or writes data is available, whatever the caller claims to be.
+  if (isPublicBeta()) return fail(new AppError("UNAVAILABLE", "That isn't available during the public beta."));
   try {
     const actor = await actorOrThrow(level);
     const db = await getDb();

@@ -7,12 +7,16 @@ import { getAuth } from "./index";
 import { getDb } from "../db/client";
 import { actorFromSessionUser, assertAdmin, assertCanParticipate, assertStaff, isStaff, isSuspended, type Actor } from "../platform/actor";
 import { AppError } from "../platform/errors";
+import { isPublicBeta } from "../platform/mode";
 
 /**
  * The signed-in user as an `Actor`, or null. Read from the database on every request (no cookie
  * cache), so a ban, suspension or role change applies immediately. Memoised per request.
  */
 export const getActor = cache(async (): Promise<Actor | null> => {
+  // Public beta: there are no sessions. Returns before touching headers, auth or the database, so anonymous pages
+  // need no secrets or e-mail configuration.
+  if (isPublicBeta()) return null;
   // Read the request headers FIRST: that is what tells Next this page is dynamic. Touching the database
   // before it would let `next build` try to prerender the page and connect to a database at build time.
   const requestHeaders = await headers();
@@ -24,6 +28,11 @@ export const getActor = cache(async (): Promise<Actor | null> => {
 
 /** For pages: sign-in required. Sends visitors to the sign-in page and back again afterwards. */
 export async function requireActor(returnTo: string): Promise<Actor> {
+  // Public beta: account pages do not exist. Not found straight away (no redirect race with the layout, no work done).
+  if (isPublicBeta()) {
+    const { notFound } = await import("next/navigation");
+    notFound();
+  }
   const actor = await getActor();
   if (!actor) redirect(`/sign-in?next=${encodeURIComponent(returnTo)}`);
   return actor;

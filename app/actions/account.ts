@@ -7,6 +7,7 @@ import { clientIp, run } from "@/lib/actions/run";
 import { getAuth } from "@/lib/auth";
 import { getDb } from "@/lib/db/client";
 import { type ActionResult, AppError, fail, ok } from "@/lib/platform/errors";
+import { isPublicBeta } from "@/lib/platform/mode";
 import { authSecret } from "@/lib/env";
 import { ipBucket, keyHash } from "@/lib/platform/ip";
 import { parse, signUpInput } from "@/lib/platform/validation";
@@ -20,6 +21,8 @@ import { assertNameAllowed, updateProfile } from "@/lib/services/users";
  * The response is identical for new and existing addresses (the owner of an existing address gets an e-mail).
  */
 export async function signUpAction(input: unknown): Promise<ActionResult> {
+  // Public beta: registration is closed in code (not a database switch), before anything else is touched.
+  if (isPublicBeta()) return fail(new AppError("UNAVAILABLE", "Sign-ups are not open during the public beta."));
   try {
     // Bots fill every field. Pretend it worked and do nothing.
     if (typeof input === "object" && input && "website" in input && (input as { website?: unknown }).website) return ok();

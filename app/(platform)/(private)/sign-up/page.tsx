@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import AuthCard from "@/components/platform/auth/AuthCard";
 import { SignUpForm } from "@/components/platform/auth/AuthForms";
 import { Notice } from "@/components/platform/ui";
 import { getActor } from "@/lib/auth/session";
 import { getDb } from "@/lib/db/client";
+import { isPublicBeta } from "@/lib/platform/mode";
 import { getSettings } from "@/lib/services/settings";
 
 export const metadata: Metadata = { title: "Join" };
 
 export default async function SignUpPage() {
+  if (isPublicBeta()) notFound(); // public beta: registration is closed in code; render nothing, touch nothing
   if (await getActor()) redirect("/dashboard");
   const settings = await getSettings(await getDb());
   return (
