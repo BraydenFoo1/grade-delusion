@@ -53,6 +53,15 @@ body {
   border-radius: 6px;
 }
 
+/* Avoid one-word last lines in body copy. The longhand leaves nowrap text alone;
+   the base layer lets Tailwind's text-balance/text-pretty utilities still win. */
+@layer base {
+  p,
+  li {
+    text-wrap-style: pretty;
+  }
+}
+
 /* ------------------------------------------------------------------
    Components
    Kept inside @layer components so Tailwind utilities can override.
@@ -64,6 +73,8 @@ body {
     line-height: 0.9;
     letter-spacing: 0.005em;
     font-size: clamp(2.6rem, 7.2vw, 5.75rem);
+    /* Even line lengths, so a last word like "YOU?" never sits alone. */
+    text-wrap: balance;
   }
 
   /* Dot-grid "notebook" texture */

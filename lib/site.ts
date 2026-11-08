@@ -5,11 +5,14 @@ export const site = {
   name: "Grade Delusion",
   alternateName: "Grade Delusion™",
   tagline: "All students only have delusions.",
+  // Home page <title>, og:title and twitter:title. Kept under ~60 characters so Google shows it in full.
+  homeTitle: "Grade Delusion | Student Memes & Delusions",
   description:
-    "Grade Delusion is the funny side of student life: student memes, a delusion generator and a very unscientific delusion test. 100% confidence, 0% evidence.",
+    "Grade Delusion is a student meme, humour and interactive entertainment project: student memes, a delusion generator and a very unscientific delusion test.",
   url: "https://grade-delusion.vercel.app",
   handle: "@gradedelusion",
   email: "gradedelusion.sg@gmail.com",
+  gradeSolutionName: "Grade Solution Learning Centre",
   gradeSolutionUrl: "https://gradesolution.com.sg",
   socials: {
     instagram: "https://www.instagram.com/gradedelusion/",
@@ -32,9 +35,15 @@ export const business = {
 } as const;
 
 export const legal = {
-  lastUpdated: "5 October 2026",
+  lastUpdated: "7 November 2026",
   privacy: "/privacy",
   terms: "/terms",
+  /**
+   * The public-beta wording on the Privacy and Terms pages is a DRAFT. It is NOT shown while this is false, so the
+   * pages stay exactly as they were. Set it to true only after the wording has been reviewed by a qualified person
+   * (and update `lastUpdated`). A test pins it to false so it cannot be flipped by accident.
+   */
+  betaWordingApproved: false,
 } as const;
 
 export const navLinks = [
@@ -43,6 +52,7 @@ export const navLinks = [
   { href: "#generator", label: "Generator" },
   { href: "#test", label: "The Test" },
   { href: "#about", label: "About" },
+  { href: "/community", label: "Community" },
   { href: "#socials", label: "Socials" },
 ] as const;
 

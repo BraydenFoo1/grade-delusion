@@ -7,6 +7,7 @@ const links = [
   { href: "/#top", label: "Home" },
   { href: "/#feed", label: "Memes" },
   { href: "/#generator", label: "Delusion Generator" },
+  { href: "/community", label: "Community" },
   { href: "/#about", label: "About" },
   { href: "/#socials", label: "Socials" },
   { href: `mailto:${site.email}`, label: "Contact" },

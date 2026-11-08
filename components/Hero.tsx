@@ -35,7 +35,8 @@ export default function Hero() {
       <Floating className="bottom-16 left-[48%] hidden text-5xl lg:block" dur={6} delay={0.5}>
         🧠
       </Floating>
-      <Floating decorative={false} className="right-5 top-[42%] z-10 text-4xl sm:right-10" dur={5.5} delay={1.2}>
+      {/* Beside the heading on phones and tablets, where 42% of the hero lands on the paragraph. */}
+      <Floating decorative={false} className="right-5 top-44 z-10 text-4xl sm:right-10 lg:top-[42%]" dur={5.5} delay={1.2}>
         <EggReveal id="skull" label="Suspicious skull" message="This skull has seen your study timetable.">
           <span aria-hidden>💀</span>
         </EggReveal>
@@ -63,8 +64,9 @@ export default function Hero() {
             id="hero-title"
             className="mt-7 font-display uppercase leading-[0.86] tracking-tight text-[clamp(3.5rem,19vw,9rem)]"
           >
-            <span className="block text-[0.42em] tracking-wide">Welcome to</span>
-            <span className="block">Grade</span>
+            {/* The {" "} keep the heading's text "Welcome to Grade Delusion™" for search engines and screen readers. */}
+            <span className="block text-[0.42em] tracking-wide">Welcome to</span>{" "}
+            <span className="block">Grade</span>{" "}
             <span className="brush">Delusion</span>
             <span className="align-top font-sans text-[0.3em] font-bold">™</span>
           </h1>
@@ -116,7 +118,7 @@ export default function Hero() {
                   style={vars({ "--dur": `${5 + i * 0.8}s`, "--delay": `${i * 0.5}s` })}
                 >
                   <div
-                    className={cn("bubble pop max-w-sm", t.tilt)}
+                    className={cn("bubble pop max-w-sm transition-[rotate] duration-300 hover:rotate-0", t.tilt)}
                     style={vars({ "--d": `${350 + i * 380}ms` })}
                   >
                     <p className="pr-6 text-xl font-bold sm:text-2xl">{t.q}</p>

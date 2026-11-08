@@ -20,7 +20,7 @@ const structuredData = [
     "@type": "WebSite",
     "@id": `${homeUrl}#website`,
     name: site.name,
-    alternateName: [site.alternateName],
+    alternateName: site.alternateName,
     url: homeUrl,
     publisher: { "@id": `${homeUrl}#organization` },
   },
@@ -32,7 +32,12 @@ const structuredData = [
     alternateName: site.alternateName,
     url: homeUrl,
     slogan: site.tagline,
-    parentOrganization: { "@type": "Organization", name: "Grade Solution", url: site.gradeSolutionUrl },
+    parentOrganization: {
+      "@type": "Organization",
+      name: "Grade Solution",
+      alternateName: site.gradeSolutionName,
+      url: site.gradeSolutionUrl,
+    },
     sameAs: Object.values(site.socials),
   },
 ];

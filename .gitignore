@@ -5,3 +5,11 @@ out
 next-env.d.ts
 .DS_Store
 .qa
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Local design-tool settings
+.impeccable/
