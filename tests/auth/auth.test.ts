@@ -155,6 +155,128 @@ describe("privilege escalation attempts", () => {
     }
   });
 
+  // Route inventory of the Better Auth Infra plugin, v0.4.27 (its Dash and Events routes), extracted from the published
+  // package: every createAuthEndpoint path plus the extra /dash and /events strings it references. Exhaustive
+  // testing is cheap here (~100 in-process requests), so nothing is sampled. Path params (:id) are filled with "x".
+  const INFRA_ROUTES: Array<[method: string, path: string]> = [
+    ["GET", "/dash/config"],
+    ["GET", "/dash/validate"],
+    ["GET", "/dash/organization/:id/directory-field-mapping-options"],
+    ["GET", "/dash/organization/:id/directories/:providerId/field-mappings"],
+    ["PUT", "/dash/organization/:id/directories/:providerId/field-mappings"],
+    ["GET", "/dash/organization/:id/directories/:providerId"],
+    ["POST", "/dash/organization/:id/directories"],
+    ["GET", "/dash/organization/:id/directories"],
+    ["POST", "/dash/organization/:id/directories/:providerId/credentials/rotate"],
+    ["POST", "/dash/organization/:id/directories/:providerId/credentials/:credentialId/revoke"],
+    ["GET", "/dash/organization/:id/directories/:providerId/events"],
+    ["POST", "/dash/organization/:id/directories/:providerId/decommission"],
+    ["POST", "/dash/organization/:id/directories/:providerId/unpair"],
+    ["GET", "/dash/directory-sync/connection-count"],
+    ["POST", "/dash/organization/directory/create"],
+    ["POST", "/dash/organization/directory/delete"],
+    ["POST", "/dash/organization/directory/regenerate-token"],
+    ["GET", "/events/types"],
+    ["POST", "/dash/execute-adapter"],
+    ["GET", "/dash/accept-invitation"],
+    ["POST", "/dash/complete-invitation"],
+    ["GET", "/dash/complete-invitation-handoff"],
+    ["GET", "/dash/complete-invitation-social"],
+    ["POST", "/dash/check-user-exists"],
+    ["GET", "/dash/organization/:id/invitations"],
+    ["POST", "/dash/organization/invite-member"],
+    ["POST", "/dash/organization/check-user-by-email"],
+    ["POST", "/dash/organization/cancel-invitation"],
+    ["POST", "/dash/organization/resend-invitation"],
+    ["GET", "/dash/organization/:id/members"],
+    ["POST", "/dash/organization/add-member"],
+    ["POST", "/dash/organization/remove-member"],
+    ["POST", "/dash/organization/update-member-role"],
+    ["POST", "/dash/organization/update-member"],
+    ["GET", "/dash/export-organizations"],
+    ["GET", "/dash/organization/options"],
+    ["GET", "/dash/organization/:id"],
+    ["POST", "/dash/organization/delete"],
+    ["POST", "/dash/organization/delete-many"],
+    ["POST", "/dash/organization/create"],
+    ["POST", "/dash/organization/update"],
+    ["GET", "/dash/organization/:id/teams"],
+    ["POST", "/dash/organization/update-team"],
+    ["POST", "/dash/organization/delete-team"],
+    ["POST", "/dash/organization/create-team"],
+    ["GET", "/dash/organization/:orgId/teams/:teamId/members"],
+    ["POST", "/dash/organization/add-team-member"],
+    ["POST", "/dash/organization/remove-team-member"],
+    ["POST", "/dash/sessions/revoke"],
+    ["POST", "/dash/sessions/revoke-all"],
+    ["POST", "/dash/sessions/revoke-many"],
+    ["GET", "/dash/sso/connection-count"],
+    ["GET", "/dash/organization/:id/sso-providers"],
+    ["POST", "/dash/organization/:id/sso-provider/create"],
+    ["POST", "/dash/organization/:id/sso-provider/update"],
+    ["POST", "/dash/organization/:id/sso-provider/request-verification-token"],
+    ["POST", "/dash/organization/:id/sso-provider/verify-domain"],
+    ["POST", "/dash/organization/:id/sso-provider/delete"],
+    ["POST", "/dash/organization/:id/sso-provider/mark-domain-verified"],
+    ["POST", "/dash/enable-two-factor"],
+    ["POST", "/dash/complete-two-factor-setup"],
+    ["POST", "/dash/view-two-factor-totp-uri"],
+    ["POST", "/dash/view-backup-codes"],
+    ["POST", "/dash/disable-two-factor"],
+    ["POST", "/dash/generate-backup-codes"],
+    ["GET", "/dash/list-users"],
+    ["GET", "/dash/export-users"],
+    ["POST", "/dash/delete-user"],
+    ["POST", "/dash/delete-many-users"],
+    ["GET", "/dash/impersonate-user"],
+    ["POST", "/dash/create-user"],
+    ["POST", "/dash/set-password"],
+    ["POST", "/dash/unlink-account"],
+    ["GET", "/dash/user"],
+    ["GET", "/dash/user-organizations"],
+    ["POST", "/dash/update-user"],
+    ["GET", "/dash/user-stats"],
+    ["GET", "/dash/user-graph-data"],
+    ["GET", "/dash/user-retention-data"],
+    ["POST", "/dash/ban-user"],
+    ["POST", "/dash/ban-many-users"],
+    ["POST", "/dash/unban-user"],
+    ["POST", "/dash/set-user-role"],
+    ["POST", "/dash/send-verification-email"],
+    ["POST", "/dash/send-many-verification-emails"],
+    ["POST", "/dash/send-reset-password-email"],
+    ["GET", "/dash"],
+    ["POST", "/dash"],
+    ["GET", "/dash/list-organizations"],
+    ["POST", "/dash/list-organizations"],
+    ["GET", "/events/list"],
+    ["POST", "/events/list"],
+    ["GET", "/events/audit-logs"],
+    ["POST", "/events/audit-logs"],
+    ["GET", "/events/all-audit-logs"],
+    ["POST", "/events/all-audit-logs"],
+  ];
+
+  it("exposes no Better Auth Infra / Dash / Events route (they would bypass our staff checks)", async () => {
+    // control: the router answers real routes, so a 404 below means "no such route", not "handler is broken"
+    const control = await t.auth.handler(new Request(`${BASE_URL}/api/auth/get-session`, { headers: { origin: BASE_URL } }));
+    expect(control.status).toBe(200);
+
+    const notFound: string[] = [];
+    for (const [method, route] of INFRA_ROUTES) {
+      const path = route.replace(/:[A-Za-z]+/g, "x");
+      const res = await t.auth.handler(
+        new Request(`${BASE_URL}/api/auth${path}`, {
+          method,
+          headers: { "content-type": "application/json", origin: BASE_URL },
+          body: method === "GET" ? undefined : "{}",
+        }),
+      );
+      if (res.status !== 404) notFound.push(`${method} ${path} -> ${res.status}`);
+    }
+    expect(notFound).toEqual([]); // empty = every request was a real HTTP 404
+  });
+
   describe("CSRF protection", () => {
     const signInReq = (headers: Record<string, string>) =>
       new Request(`${BASE_URL}/api/auth/sign-in/email`, {

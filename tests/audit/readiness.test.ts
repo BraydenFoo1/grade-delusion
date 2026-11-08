@@ -306,6 +306,40 @@ describe("review findings: moderation and editing", () => {
   });
 });
 
+describe("Better Auth Infra (Dash) stays out", () => {
+  // Every tracked source / config / env-template file, found by walking the repo root. Generated output,
+  // dependencies and local env files are skipped; docs (.md) legitimately explain why Dash is absent.
+  const SKIP_DIRS = new Set(["node_modules", ".next", ".git", "out", "coverage", "dist", "build", "playwright-report", "test-results", ".vercel", ".turbo", ".qa", ".impeccable", ".data"]);
+  const SCANNED = /\.(?:[cm]?[jt]sx?|json|ya?ml|toml|sql|css)$|^\.env(?:\..+)?\.(?:example|sample|template)$|^\.env\.example$/;
+  const SELF = "tests/audit/readiness.test.ts"; // names the forbidden strings on purpose
+  const walk = (dir: string): string[] =>
+    readdirSync(path.join(root, dir)).flatMap((e) => {
+      const rel = dir ? `${dir}/${e}` : e;
+      if (statSync(path.join(root, rel)).isDirectory()) return SKIP_DIRS.has(e) ? [] : walk(rel);
+      return SCANNED.test(e) && rel !== SELF ? [rel] : [];
+    });
+  const files = walk("");
+
+  it("scans the application, tests, scripts and config (and not generated output)", () => {
+    for (const f of ["package.json", "package-lock.json", "next.config.ts", "drizzle.config.ts", "vitest.config.mts", "postcss.config.mjs", ".env.example", "lib/auth/create.ts", "app/layout.tsx"]) {
+      expect(files, f).toContain(f);
+    }
+    expect(files.filter((f) => /^(node_modules|\.next)\//.test(f))).toEqual([]);
+  });
+
+  it("is not a dependency (including the lockfile), not imported, not called, and no API key is read anywhere", () => {
+    const pkg = JSON.parse(read("package.json"));
+    for (const field of ["dependencies", "devDependencies", "optionalDependencies", "peerDependencies"]) {
+      expect(Object.keys(pkg[field] ?? {}).filter((n) => /better-auth.*infra|infra.*better-auth/.test(n)), field).toEqual([]);
+    }
+    const lock = JSON.parse(read("package-lock.json"));
+    expect(Object.keys(lock.packages ?? {}).filter((n) => /better-auth\/infra|better-auth-infra/.test(n))).toEqual([]);
+
+    const offenders = files.filter((f) => /BETTER_AUTH_API_KEY|better-auth\/infra|better-auth-infra|\bdash\s*\(/.test(read(f)));
+    expect(offenders).toEqual([]);
+  });
+});
+
 describe("housekeeping removes only what is expired", () => {
   let db: TestDb;
   let close: () => Promise<void>;
