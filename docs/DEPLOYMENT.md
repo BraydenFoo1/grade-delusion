@@ -1,5 +1,10 @@
 # Deployment preparation
 
+> **Public beta first.** The first release is the read-only public beta described in [`PUBLIC_BETA.md`](./PUBLIC_BETA.md):
+> no accounts, no database, no e-mail. The sections below (Neon, Resend, migrations, sign-up smoke tests) apply to the
+> **full platform** and are not needed for the beta. A deployed build is always the public beta; enabling accounts later is
+> a reviewed code change plus the Kai age gate, not a setting.
+
 **Nothing in this branch has been deployed, pushed or committed.** This is the checklist for when you decide to.
 
 ## 0. Decisions that are yours
