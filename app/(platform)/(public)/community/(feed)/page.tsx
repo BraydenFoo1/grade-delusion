@@ -4,12 +4,12 @@ import PostCard from "@/components/platform/community/PostCard";
 import Icon from "@/components/platform/Icon";
 import { EmptyState, LinkButton, PageHeader, Pagination } from "@/components/platform/ui";
 import { getActor } from "@/lib/auth/session";
-import { getDb } from "@/lib/db/client";
 import { isSuspended } from "@/lib/platform/actor";
+import { isPublicBeta } from "@/lib/platform/mode";
 import { CATEGORIES } from "@/lib/platform/constants";
 import { plural } from "@/lib/platform/format";
 import { feedQuery } from "@/lib/platform/validation";
-import { listPublicPosts } from "@/lib/services/posts";
+import { publicFeed } from "@/lib/services/public-read";
 
 // User-generated pages stay out of search results by default: they show members' display names, and the
 // members include 13-year-olds. To allow indexing, change `index` here and in the post and profile pages.
@@ -36,14 +36,28 @@ export default async function CommunityPage({ searchParams }: { searchParams: Pr
   // Garbage in the URL falls back to defaults instead of erroring.
   const parsed = feedQuery.safeParse(raw);
   const query = parsed.success ? parsed.data : feedQuery.parse({});
-  const [actor, db] = await Promise.all([getActor(), getDb()]);
-  const result = await listPublicPosts(db, query, { viewerId: actor?.id });
+  const actor = await getActor();
+  const beta = isPublicBeta();
+  const result = await publicFeed(query, { viewerId: actor?.id });
   const viewer = { id: actor?.id ?? null, canParticipate: Boolean(actor && actor.emailVerified && !isSuspended(actor)) };
   const filtered = Boolean(query.q) || query.category !== "all" || query.sort !== "new";
 
+  // Public beta with nothing published yet: an honest message instead of an empty feed with search and filters.
+  if (beta && result.total === 0 && !filtered) {
+    return (
+      <div className="space-y-8">
+        <PageHeader title="Community">Real delusions from real students.</PageHeader>
+        <EmptyState icon="chat" title="Community is opening soon">
+          We&apos;re getting it ready. There are no accounts and no posting yet. In the meantime the memes, the delusion generator and the
+          delusion test are all open.
+        </EmptyState>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
-      <PageHeader title="Community" actions={<LinkButton href="/submit" variant="primary">Submit yours</LinkButton>}>
+      <PageHeader title="Community" actions={beta ? undefined : <LinkButton href="/submit" variant="primary">Submit yours</LinkButton>}>
         Real delusions from real students. Every post was read and approved by a human before it appeared here.
       </PageHeader>
 
@@ -101,7 +115,7 @@ export default async function CommunityPage({ searchParams }: { searchParams: Pr
             Try fewer words, or a different category. Searches look at the delusion text and the author&apos;s name.
           </EmptyState>
         ) : (
-          <EmptyState icon="chat" title="No delusions yet" action={<LinkButton href="/submit" variant="primary">Be the first</LinkButton>}>
+          <EmptyState icon="chat" title="No delusions yet" action={beta ? undefined : <LinkButton href="/submit" variant="primary">Be the first</LinkButton>}>
             The feed fills up as moderators approve submissions. Yours could be the first one here.
           </EmptyState>
         )

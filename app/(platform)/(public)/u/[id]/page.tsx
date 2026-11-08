@@ -4,11 +4,9 @@ import { notFound } from "next/navigation";
 import PostCard from "@/components/platform/community/PostCard";
 import { Avatar, EmptyState, Pagination } from "@/components/platform/ui";
 import { getActor } from "@/lib/auth/session";
-import { getDb } from "@/lib/db/client";
 import { isSuspended } from "@/lib/platform/actor";
 import { formatDate, plural } from "@/lib/platform/format";
-import { listPublicPosts } from "@/lib/services/posts";
-import { getPublicProfile } from "@/lib/services/users";
+import { publicFeed, publicProfile } from "@/lib/services/public-read";
 
 // Profiles are never indexed: they carry display names of members who may be minors.
 export const metadata: Metadata = { title: "Profile", robots: { index: false, follow: false } };
@@ -16,11 +14,11 @@ export const metadata: Metadata = { title: "Profile", robots: { index: false, fo
 export default async function ProfilePage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ page?: string }> }) {
   const { id } = await params;
   const { page: rawPage } = await searchParams;
-  const [actor, db] = await Promise.all([getActor(), getDb()]);
-  const profile = await getPublicProfile(db, id);
+  const actor = await getActor();
+  const profile = await publicProfile(id);
   if (!profile) notFound(); // unknown, suspended and banned users all look the same
   const page = Math.max(1, Number.parseInt(rawPage ?? "1", 10) || 1);
-  const posts = await listPublicPosts(db, { category: "all", sort: "new", page }, { viewerId: actor?.id, authorId: id });
+  const posts = await publicFeed({ category: "all", sort: "new", page }, { viewerId: actor?.id, authorId: id });
   const viewer = { id: actor?.id ?? null, canParticipate: Boolean(actor && actor.emailVerified && !isSuspended(actor)) };
 
   return (

@@ -7,15 +7,14 @@ import PostCard from "@/components/platform/community/PostCard";
 import Icon from "@/components/platform/Icon";
 import { EmptyState, Notice } from "@/components/platform/ui";
 import { getActor } from "@/lib/auth/session";
-import { getDb } from "@/lib/db/client";
 import { isSuspended } from "@/lib/platform/actor";
+import { isPublicBeta } from "@/lib/platform/mode";
 import { plural } from "@/lib/platform/format";
-import { listComments } from "@/lib/services/comments";
-import { getPublicPost } from "@/lib/services/posts";
+import { publicComments, publicPost } from "@/lib/services/public-read";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
-  const post = await getPublicPost(await getDb(), id);
+  const post = await publicPost(id);
   // Same privacy default as the feed: not indexed (see community/page.tsx).
   const robots = { index: false, follow: true };
   if (!post) return { title: "Not found", robots };
@@ -25,11 +24,12 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function PostPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const [actor, db] = await Promise.all([getActor(), getDb()]);
-  const post = await getPublicPost(db, id, actor?.id);
+  const actor = await getActor();
+  const beta = isPublicBeta();
+  const post = await publicPost(id, actor?.id);
   // Pending, rejected, removed and non-existent posts all look the same: not found.
   if (!post) notFound();
-  const comments = await listComments(db, id);
+  const comments = await publicComments(id);
   const viewer = { id: actor?.id ?? null, canParticipate: Boolean(actor && actor.emailVerified && !isSuspended(actor)) };
   const signInHref = `/sign-in?next=${encodeURIComponent(`/community/${id}`)}`;
   const visibleCount = comments.filter((c) => !c.removed).length;
@@ -45,7 +45,9 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
         <h2 id="comments-title" className="text-xl font-bold">
           {plural(visibleCount, "comment")}
         </h2>
-        {viewer.canParticipate ? (
+        {beta ? (
+          <Notice tone="info">Comments and reactions aren&apos;t open yet.</Notice>
+        ) : viewer.canParticipate ? (
           <CommentForm postId={id} />
         ) : actor ? (
           <Notice tone="info">Your account can&apos;t comment right now.</Notice>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { PostView } from "@/lib/services/posts";
-import { categoryLabel } from "@/lib/platform/constants";
+import { REACTIONS, categoryLabel } from "@/lib/platform/constants";
+import { isPublicBeta } from "@/lib/platform/mode";
 import { plural } from "@/lib/platform/format";
 import Icon from "../Icon";
 import { Avatar, Time } from "../ui";
@@ -13,6 +14,7 @@ export default function PostCard({ post, viewer, headingLevel = "h2", detail = f
   const signInHref = `/sign-in?next=${encodeURIComponent(`/community/${post.id}`)}`;
   const isOwn = viewer.id === post.author.id;
   const Heading = headingLevel;
+  const readOnly = isPublicBeta();
   return (
     <article className="pf-card pf-lift p-5 sm:p-6" aria-labelledby={`post-${post.id}`}>
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
@@ -35,14 +37,24 @@ export default function PostCard({ post, viewer, headingLevel = "h2", detail = f
       <p className={detail ? "pf-prose mt-4 text-[1.1875rem]" : "pf-prose mt-4 text-[1.0625rem]"}>{post.body}</p>
 
       <div className="mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-        <ReactionBar postId={post.id} counts={post.reactions} mine={post.myReaction} canReact={viewer.canParticipate} signInHref={signInHref} />
+        {readOnly ? (
+          <ul className="flex flex-wrap items-center gap-2" aria-label="Reactions">
+            {REACTIONS.map((r) => (
+              <li key={r.key} className="pf-chip">
+                {r.label} {post.reactions[r.key]}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <ReactionBar postId={post.id} counts={post.reactions} mine={post.myReaction} canReact={viewer.canParticipate} signInHref={signInHref} />
+        )}
         <div className="flex items-center gap-1">
           {!detail ? (
             <Link href={`/community/${post.id}`} className="pf-btn pf-btn-ghost pf-btn-sm">
               <Icon name="chat" size={16} /> {plural(post.commentCount, "comment")}
             </Link>
           ) : null}
-          {!isOwn ? <ReportButton targetType="post" targetId={post.id} canReport={viewer.canParticipate} signInHref={signInHref} /> : null}
+          {!isOwn && !readOnly ? <ReportButton targetType="post" targetId={post.id} canReport={viewer.canParticipate} signInHref={signInHref} /> : null}
         </div>
       </div>
     </article>

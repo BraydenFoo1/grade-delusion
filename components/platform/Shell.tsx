@@ -7,7 +7,12 @@ import Icon from "./Icon";
 import { AccountMenu, BottomTabs, NavLinks, NotificationBell, ThemeToggle, type NavItem } from "./ShellClient";
 import { buttonClass } from "./ui";
 
-function navFor(actor: Actor | null): { desktop: NavItem[]; mobile: NavItem[] } {
+function navFor(actor: Actor | null, beta: boolean): { desktop: NavItem[]; mobile: NavItem[] } {
+  if (beta) {
+    // Public beta: reading only. No sign-in, join or submit links, because those pages do not exist yet.
+    const community: NavItem = { href: "/community", label: "Community", icon: "users" };
+    return { desktop: [community], mobile: [community] };
+  }
   if (!actor) {
     return {
       desktop: [{ href: "/community", label: "Community", icon: "users" }],
@@ -36,8 +41,8 @@ function navFor(actor: Actor | null): { desktop: NavItem[]; mobile: NavItem[] } 
   };
 }
 
-export function PlatformHeader({ actor, unread }: { actor: Actor | null; unread: number }) {
-  const nav = navFor(actor);
+export function PlatformHeader({ actor, unread, beta = false }: { actor: Actor | null; unread: number; beta?: boolean }) {
+  const nav = navFor(actor, beta);
   return (
     <>
       <a href="#content" className="sr-only z-[100] rounded-lg bg-(--pf-fg) px-4 py-2 font-bold text-(--pf-bg) focus:not-sr-only focus:fixed focus:left-4 focus:top-4">
@@ -58,7 +63,7 @@ export function PlatformHeader({ actor, unread }: { actor: Actor | null; unread:
               </div>
               <AccountMenu name={actor.name} role={actor.role} staff={isStaff(actor.role)} />
             </>
-          ) : (
+          ) : beta ? null : (
             <div className="hidden items-center gap-2 md:flex">
               <Link href="/sign-in" className={buttonClass("ghost", true)}>
                 Sign in
