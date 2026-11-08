@@ -38,6 +38,12 @@ export const legal = {
   lastUpdated: "7 November 2026",
   privacy: "/privacy",
   terms: "/terms",
+  /**
+   * The public-beta wording on the Privacy and Terms pages is a DRAFT. It is NOT shown while this is false, so the
+   * pages stay exactly as they were. Set it to true only after the wording has been reviewed by a qualified person
+   * (and update `lastUpdated`). A test pins it to false so it cannot be flipped by accident.
+   */
+  betaWordingApproved: false,
 } as const;
 
 export const navLinks = [

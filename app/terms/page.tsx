@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage";
 import { pageMetadata } from "@/lib/seo";
+import { isPublicBeta } from "@/lib/platform/mode";
 import { business, legal, site } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
@@ -8,6 +9,9 @@ export const metadata: Metadata = pageMetadata({
   description: "The rules for using Grade Delusion, joining the community and sending us memes.",
   path: legal.terms,
 });
+
+// Draft public-beta wording (see legal.betaWordingApproved): hidden until it has been reviewed.
+const showBeta = () => legal.betaWordingApproved && isPublicBeta();
 
 const contact = <a href={`mailto:${business.dpoEmail}`}>{business.dpoEmail}</a>;
 
@@ -29,6 +33,12 @@ export default function TermsPage() {
       title="Terms of Use"
       intro={
         <>
+          {showBeta() ? (
+            <>
+              <strong>Public beta.</strong> Accounts and community participation (section 5) are not available during the public beta;
+              those terms apply only if and when they open.{" "}
+            </>
+          ) : null}
           The rules for using Grade Delusion™ and sending us your memes. By using this website, you agree to these
           terms.
         </>
@@ -126,6 +136,11 @@ export default function TermsPage() {
       </p>
 
       <h2 id="community">5. Accounts and the community</h2>
+      {showBeta() ? (
+        <p>
+          <em>Not available during the public beta.</em>
+        </p>
+      ) : null}
       <p>
         You can browse the community without an account. To post, comment, react or report, you need one.
       </p>

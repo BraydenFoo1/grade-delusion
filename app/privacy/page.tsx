@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage";
 import { pageMetadata } from "@/lib/seo";
+import { isPublicBeta } from "@/lib/platform/mode";
 import { business, legal, site } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
@@ -8,6 +9,9 @@ export const metadata: Metadata = pageMetadata({
   description: "How Grade Delusion handles personal data: almost nothing on the home page, and only what is needed to run accounts in the community.",
   path: legal.privacy,
 });
+
+// Draft public-beta wording (see legal.betaWordingApproved): hidden until it has been reviewed.
+const showBeta = () => legal.betaWordingApproved && isPublicBeta();
 
 const dpo = <a href={`mailto:${business.dpoEmail}`}>{business.dpoEmail}</a>;
 const operator = (
@@ -23,6 +27,14 @@ export default function PrivacyPage() {
       title="Privacy Policy"
       intro={
         <>
+          {showBeta() ? (
+            <>
+              <strong>Public beta.</strong> This site is currently a read-only public beta. There are no member accounts, and sign-up, posting,
+              commenting, reacting and reporting are not available. The sections below about accounts and the community (section 3) and
+              about children under 13 as they relate to accounts (section 7) describe features that are not active during the beta; they
+              apply only if and when those features open.{" "}
+            </>
+          ) : null}
           Grade Delusion™ is all jokes. Your privacy isn&apos;t. This policy explains what personal data we handle, why,
           and what you can ask us to do with it. It&apos;s written to follow Singapore&apos;s Personal Data Protection Act
           2012 (PDPA).
@@ -72,6 +84,11 @@ export default function PrivacyPage() {
       </p>
 
       <h2 id="accounts">3. Accounts and the community</h2>
+      {showBeta() ? (
+        <p>
+          <em>Not active during the public beta.</em>
+        </p>
+      ) : null}
       <p>
         The community (posting delusions, commenting, reacting and reporting) needs an account. Accounts are for people
         aged 13 and over. This is what we handle when you use it:
@@ -179,6 +196,11 @@ export default function PrivacyPage() {
       </p>
 
       <h2 id="children">7. Children under 13</h2>
+      {showBeta() ? (
+        <p>
+          <em>The account rules in this section are not active during the public beta; the rest applies now.</em>
+        </p>
+      ) : null}
       <p>
         Grade Delusion™ is made for students, and you don&apos;t need to give us any personal data to enjoy the home
         page. Community accounts are for people aged 13 and over, and you confirm your age when you join. If
