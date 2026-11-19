@@ -14,6 +14,8 @@ export const site = {
   email: "gradedelusion.sg@gmail.com",
   gradeSolutionName: "Grade Solution Learning Centre",
   gradeSolutionUrl: "https://gradesolution.com.sg",
+  // Grade Solution's Parent Edition diagnostic quiz: the destination of the Student Edition quiz's call to action.
+  gradeSolutionQuizUrl: "https://quiz.gradesolution.com.sg/questions?utm_source=gradedelusion&utm_medium=quiz_result",
   socials: {
     instagram: "https://www.instagram.com/gradedelusion/",
     youtube: "https://youtube.com/@gradesolutionsg",
@@ -35,13 +37,17 @@ export const business = {
 } as const;
 
 export const legal = {
+  // Terms of Use revision date (the default for LegalPage). The Privacy Policy has its own date below.
   lastUpdated: "7 November 2026",
+  // Privacy Policy revision date: updated 18 November 2026 for the cookie-information banner (section 4).
+  privacyLastUpdated: "18 November 2026",
   privacy: "/privacy",
   terms: "/terms",
   /**
    * The public-beta wording on the Privacy and Terms pages is a DRAFT. It is NOT shown while this is false, so the
    * pages stay exactly as they were. Set it to true only after the wording has been reviewed by a qualified person
-   * (and update `lastUpdated`). A test pins it to false so it cannot be flipped by accident.
+   * (and update the date of every page whose wording changes: `lastUpdated` for Terms, `privacyLastUpdated` for Privacy).
+   * A test pins it to false so it cannot be flipped by accident.
    */
   betaWordingApproved: false,
 } as const;

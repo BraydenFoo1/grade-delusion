@@ -53,3 +53,17 @@ npm run build && npm run test:public-beta   # a real production build with no da
 Do **not** merge this branch into `main` or promote it to production without explicit approval. Push it only to get a
 **Preview** deployment (behind Vercel's deployment protection) and check Vercel's *Production Branch*, domains and
 environment variables first. See `DEPLOYMENT.md`.
+
+## Student Edition quiz, exam countdown and mini-toys (client-only)
+
+The home page also has a **Student Edition** parody quiz with a downloadable 9:16 story card, an **exam panic countdown**,
+three **mini-toys** (TYS Dust-O-Meter, Certificate of Delusion, exam magic 8-ball), a Student/Parent switcher and a
+cookie-information banner (a single "Got it" acknowledgement). They are comedy, run entirely in the visitor's browser and add **no** server route, database
+access, account, submission, analytics or tracking. Answers, results and the name typed into the certificate are never
+stored or sent. The only thing stored is the banner acknowledgement (see `docs/CONSENT.md`). The test
+`tests/unit/student-toys-guard.test.ts` enforces this.
+
+**Exam dates.** The countdown shows "2027 Exam Dates Not Announced Yet" until you add a date in `lib/exam-dates.ts`. Add one
+only when SEAB or MOE has officially published it: the entry needs an ISO time with an explicit offset, the official
+source URL (seab.gov.sg or moe.gov.sg) and the day you verified it. Anything else is ignored, and a unit test fails if an
+unverified date is committed. The tabs are PSLE, SEC and A-Level; the N- and O-Level exams are replaced by the SEC from 2027.

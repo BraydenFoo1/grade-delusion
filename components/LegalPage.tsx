@@ -7,11 +7,14 @@ export default function LegalPage({
   title,
   intro,
   summary,
+  lastUpdated = legal.lastUpdated,
   children,
 }: {
   title: string;
   intro: ReactNode;
   summary: ReactNode;
+  /** Revision date shown under the title. Defaults to the Terms date; the Privacy Policy passes its own. */
+  lastUpdated?: string;
   children: ReactNode;
 }) {
   return (
@@ -31,7 +34,7 @@ export default function LegalPage({
         </div>
         <div className="mx-auto max-w-4xl px-4 pb-14 pt-10 sm:px-6">
           <h1 className="font-display text-[clamp(3rem,10vw,6rem)] uppercase leading-[0.9]">{title}</h1>
-          <p className="mt-4 text-sm font-bold uppercase tracking-[0.2em]">Last updated: {legal.lastUpdated}</p>
+          <p className="mt-4 text-sm font-bold uppercase tracking-[0.2em]">Last updated: {lastUpdated}</p>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed">{intro}</p>
         </div>
       </header>

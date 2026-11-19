@@ -89,6 +89,8 @@ test.describe("responsive layout", () => {
 
   test("phones get a bottom tab bar (with the primary action in the middle); desktops get a top nav", async ({ browser }) => {
     const phone = await open(browser, "fan", PHONE);
+    // The first-visit cookie banner sits over the bottom tab bar until it is acknowledged; this test is about the tab bar.
+    await phone.context.addInitScript(() => localStorage.setItem("gd_cookie_consent", "acknowledged"));
     await phone.page.goto("/dashboard");
     const tabs = phone.page.getByRole("navigation", { name: "Main" }).last();
     await expect(tabs).toBeVisible();
@@ -143,6 +145,63 @@ test.describe("the existing marketing site is untouched", () => {
     await expect(page.getByRole("button", { name: /Give me another delusion/i })).toBeVisible({ timeout: 5000 });
     for (const p of ["/privacy", "/terms", "/blog", "/student-memes"]) expect((await page.goto(p))?.status(), p).toBe(200);
     expect(problems, problems.join("\n")).toEqual([]);
+    await context.close();
+  });
+});
+
+test.describe("cookie information banner", () => {
+  test("one 'Got it' button; it saves only 'acknowledged' locally, sends nothing, and stays dismissed", async ({ browser }) => {
+    const { context, page } = await open(browser, "anon", { width: 390, height: 844 });
+    const requests: string[] = [];
+    page.on("request", (r) => requests.push(`${r.method()} ${r.url()} ${r.postData() ?? ""}`));
+    await page.goto("/");
+    const banner = page.getByRole("region", { name: "Cookie information" });
+    await expect(banner).toBeVisible();
+    await expect(banner.getByRole("button")).toHaveCount(1);
+    await expect(banner.getByRole("button", { name: /Got it/ })).toBeVisible();
+    await expect(page.getByRole("button", { name: /Essential Only|Accept All/ })).toHaveCount(0);
+    expect(await page.evaluate(() => localStorage.getItem("gd_cookie_consent"))).toBeNull();
+    // Compact on a phone (it was ~200px tall stacked), with a touch target of at least 44px.
+    // (The banner pops in with a scale animation, so wait until the measurement settles instead of reading it mid-animation.)
+    const gotIt = banner.getByRole("button", { name: /Got it/ });
+    await expect.poll(async () => (await gotIt.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(44);
+    await expect.poll(async () => (await banner.boundingBox())?.height ?? 999).toBeLessThanOrEqual(150);
+    const before = requests.length;
+    await banner.getByRole("button", { name: /Got it/ }).click();
+    await expect(banner).toHaveCount(0);
+    expect(await page.evaluate(() => localStorage.getItem("gd_cookie_consent"))).toBe("acknowledged");
+    expect(await page.evaluate(() => Object.keys(localStorage))).toEqual(["gd_cookie_consent"]);
+    expect(await page.evaluate(() => document.cookie)).toBe("");
+    expect(requests.slice(before).filter((r) => /consent|acknowledged/i.test(r)), "the banner must not send anything").toEqual([]);
+    await page.reload();
+    await page.goto("/privacy");
+    await page.goto("/");
+    await expect(page.getByRole("region", { name: "Cookie information" })).toHaveCount(0);
+    await context.close();
+  });
+});
+
+test.describe("quiz result announcement", () => {
+  test("the animated percentage is hidden from the accessibility tree; the result is announced once as static text", async ({ browser }) => {
+    const { context, page } = await open(browser, "anon", { width: 390, height: 844 });
+    await page.addInitScript(() => localStorage.setItem("gd_cookie_consent", "acknowledged"));
+    await page.goto("/");
+    await page.locator("#student-quiz").scrollIntoViewIfNeeded();
+    for (let i = 0; i < 7; i++) {
+      await page.locator("#student-quiz ul button").first().click();
+      await page.waitForTimeout(650);
+    }
+    const live = page.locator('#student-quiz [aria-live="polite"]').first();
+    await expect(live.getByText(/\d+ percent/)).toHaveCount(1);
+    const final = (await live.getByText(/\d+ percent/).innerText()).match(/\d+/)![0];
+    // Record what the live region exposes while the visible number counts up (~1.3s): the counter must not be exposed.
+    const counter = live.locator("p[aria-hidden='true']").first();
+    await expect(counter).toHaveCount(1);
+    const snapshot = await live.ariaSnapshot();
+    expect(snapshot).toContain(`${final} percent`);
+    expect(snapshot).not.toMatch(new RegExp(`^\\s*- paragraph: ["']?${final}%`, "m"));
+    // The visible animation still runs to the same number.
+    await expect(counter).toHaveText(new RegExp(`^${final}\\s*%$`), { timeout: 5000 });
     await context.close();
   });
 });

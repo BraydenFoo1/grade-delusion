@@ -6,6 +6,10 @@ import DelusionLevels from "@/components/DelusionLevels";
 import DelusionFeed from "@/components/DelusionFeed";
 import DelusionGenerator from "@/components/DelusionGenerator";
 import DelusionTest from "@/components/DelusionTest";
+import ParodyQuiz from "@/components/ParodyQuiz";
+import ExamCountdown from "@/components/ExamCountdown";
+import MiniToys from "@/components/MiniToys";
+import StudentParentSwitcher from "@/components/StudentParentSwitcher";
 import GradeSolution from "@/components/GradeSolution";
 import JoinSocials from "@/components/JoinSocials";
 import ExploreSection from "@/components/ExploreSection";
@@ -53,6 +57,7 @@ export default function Home() {
       >
         Skip to content
       </a>
+      <StudentParentSwitcher />
       <Navbar />
       <main id="main">
         <Hero />
@@ -62,6 +67,9 @@ export default function Home() {
         <DelusionFeed />
         <DelusionGenerator />
         <DelusionTest />
+        <ParodyQuiz />
+        <ExamCountdown />
+        <MiniToys />
         <GradeSolution />
         <ExploreSection />
         <JoinSocials />

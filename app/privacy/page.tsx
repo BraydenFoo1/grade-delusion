@@ -25,6 +25,7 @@ export default function PrivacyPage() {
   return (
     <LegalPage
       title="Privacy Policy"
+      lastUpdated={legal.privacyLastUpdated}
       intro={
         <>
           {showBeta() ? (
@@ -140,7 +141,8 @@ export default function PrivacyPage() {
 
       <h2 id="cookies">4. Cookies and similar technologies</h2>
       <p>
-        We use only what is strictly necessary to run the community, so there is no cookie banner:
+        We use only what is strictly necessary to run the community. When you first visit, a banner asks you to
+        acknowledge our cookie information. The preference is saved so we don&apos;t ask you again.
       </p>
       <ul>
         <li>
@@ -151,12 +153,17 @@ export default function PrivacyPage() {
           <strong>A saved theme choice</strong> (light or dark) in your browser&apos;s local storage, only if you use
           the theme button.
         </li>
+        <li>
+          <strong>A consent preference</strong> (<code>gd_cookie_consent</code>) stored in your browser&apos;s local storage when you
+          use the banner. It contains only your choice (&lsquo;acknowledged&rsquo;), without an identifier or timestamp. This
+          preference is not transmitted to our servers by the consent feature.
+        </li>
       </ul>
       <p>
-        We don&apos;t use analytics, advertising pixels or any other tracking technology. Our fonts are served from our
-        own website, so your browser doesn&apos;t contact Google or any other third party to load them. If we ever add
-        analytics or anything else that uses cookies, we will update this policy first and ask for your consent where
-        required.
+        We don&apos;t use analytics, advertising pixels, behavioural tracking or any other tracking technology. Our fonts
+        are served from our own website, so your browser doesn&apos;t contact Google or any other third party to load
+        them. If we ever add analytics or anything else that uses cookies, we will update this policy first and ask for
+        your consent before it runs.
       </p>
 
       <h2 id="emails">5. When you email us or send a submission</h2>

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Anton, Caveat, Permanent_Marker, Space_Grotesk } from "next/font/google";
+import CookieConsent from "@/components/CookieConsent";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -60,6 +61,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body className="bg-paper font-sans text-ink antialiased">
         {children}
+        <CookieConsent />
       </body>
     </html>
   );

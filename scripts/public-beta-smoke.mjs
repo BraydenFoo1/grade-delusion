@@ -53,6 +53,23 @@ try {
   const feed = await get("/api/community/posts");
   check(feed.text === JSON.stringify({ items: [], total: 0, page: 1, pageCount: 1 }), "feed API is the empty static feed");
   for (const p of ["/privacy", "/terms"]) check(!(await get(p)).text.includes("Public beta."), `${p} does not show the unreviewed beta wording`);
+  const privacy = (await get("/privacy")).text;
+  check(privacy.includes("gd_cookie_consent") && privacy.includes("acknowledged"), "/privacy discloses the gd_cookie_consent acknowledgement");
+  check(!privacy.includes("no cookie banner"), "/privacy no longer says there is no cookie banner");
+  check(/Last updated: (<!-- -->)?18 November 2026/.test(privacy), "/privacy shows Last updated: 18 November 2026");
+  check(/Last updated: (<!-- -->)?7 November 2026/.test((await get("/terms")).text), "/terms still shows Last updated: 7 November 2026");
+
+  // Student Edition quiz, exam countdown and mini-toys: client-only, no tracking, no extra forms or scripts
+  const home = await get("/");
+  for (const id of ["student-quiz", "countdown", "toys"]) check(home.text.includes(`id="${id}"`), `/ renders the #${id} section`);
+  check(home.text.includes("Student Edition"), "/ labels the quiz 'Student Edition'");
+  check(home.text.includes("2027 Exam Dates Not Announced Yet"), "/ shows '2027 Exam Dates Not Announced Yet' (no official dates configured)");
+  check(!/\d+\s*days to go/i.test(home.text), "/ shows no fake countdown");
+  check(!home.text.includes("Detected an adult"), "/ does not render the parent toast until it is chosen");
+  check((home.text.match(/<form/g) ?? []).length <= 1, "/ adds no <form> (the one pre-existing form belongs to the egg component)");
+  check(!/gtag|fbq\(|dataLayer|googletagmanager|facebook\.net|hotjar/i.test(home.text), "/ contains no analytics or pixel code");
+  const externalScripts = [...home.text.matchAll(/<script[^>]+src="(https?:)?\/\/[^"]+"/g)];
+  check(externalScripts.length === 0, "/ loads no external scripts");
 
   // security headers still present
   for (const p of ["/", "/community", "/dashboard"]) {
