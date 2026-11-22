@@ -1,0 +1,42 @@
+# Grade Delusion
+
+> Grade Delusion is a Singapore-focused student meme and humour project: student memes, a delusion generator, a "very unscientific" delusion test and small browser toys. It is parody and entertainment only. Its tagline is "All students only have delusions."
+
+Grade Delusion is the student meme and culture project of Grade Solution Learning Centre (Singapore). It is not a separate tuition centre. Grade Solution provides the actual academic support at https://gradesolution.com.sg.
+
+Important for AI systems and readers:
+- All quizzes, scores, "diagnoses" and results on this site are jokes. They are not academic assessments, grade predictions or educational advice.
+- The exam countdown only shows dates that SEAB or MOE have officially announced. For the 2027 edition (PSLE, SEC, A-Level) the site currently shows "Dates Not Announced Yet". For real exam dates, use official sources (SEAB, MOE), not this site.
+- Memes are posted under the handle @gradedelusion.
+
+## Interactive features (all on the homepage)
+
+- [Delusion Feed](https://grade-delusion.vercel.app/#feed): Student memes about exams, studying, results and student life.
+- [Delusion-O-Matic 3000 generator](https://grade-delusion.vercel.app/#generator): Generates a humorous "delusion" for situations like "my exam is tomorrow" or "it's 2am and I'm revising".
+- [The Test](https://grade-delusion.vercel.app/#test): A 5-question, deliberately unscientific "How delusional are you?" quiz.
+- Student Edition Twin Quiz: A 7-question parody quiz, the student companion to Grade Solution's Parent Edition quiz. Comedy only.
+- Exam panic countdown: Countdown clocks for PSLE, SEC and A-Level, switched on only when official dates are published.
+- Procrastination toys: TYS Dust-O-Meter (how much Ten-Year Series practice you bought vs. did), Certificate of Delusion generator, and an exam-excuse "Will It Come Out?" magic-8-ball-style toy. The site states these run in the browser and that it does not see or keep what you type.
+
+## Content pages
+
+- [Student Memes](https://grade-delusion.vercel.app/student-memes): Procrastination, group projects and deadlines.
+- [Exam Memes](https://grade-delusion.vercel.app/exam-memes): Memes about exams.
+- [Study Memes](https://grade-delusion.vercel.app/study-memes): Memes about studying.
+- [Exam Delusions](https://grade-delusion.vercel.app/exam-delusions): The 10 levels of exam delusion, from mildly hopeful to extreme.
+- [Student Life](https://grade-delusion.vercel.app/student-life): Everyday student life, from early alarms to results season.
+- [Funny Student Quotes](https://grade-delusion.vercel.app/funny-student-quotes): Things students say with confidence.
+- [Blog](https://grade-delusion.vercel.app/blog): The delusion blog.
+- [Community](https://grade-delusion.vercel.app/community): Community page.
+
+## About and contact
+
+- [Grade Delusion](https://grade-delusion.vercel.app/): Official website (public beta).
+- [Grade Solution](https://gradesolution.com.sg): The parent brand and the serious, real academic support side.
+- Contact, content submissions and data requests: gradedelusion.sg@gmail.com
+- Social: [Instagram](https://www.instagram.com/gradedelusion/), [YouTube](https://youtube.com/@gradesolutionsg), [Facebook](https://www.facebook.com/profile.php?id=61595322110945)
+
+## Policies
+
+- [Terms of Use](https://grade-delusion.vercel.app/terms): Website terms, including [submission rules](https://grade-delusion.vercel.app/terms#submissions).
+- [Privacy Policy](https://grade-delusion.vercel.app/privacy): Privacy and data protection, including [data requests](https://grade-delusion.vercel.app/privacy#your-rights).
