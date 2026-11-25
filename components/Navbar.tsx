@@ -46,7 +46,7 @@ export default function Navbar() {
   const close = () => setOpen(false);
 
   return (
-    <header ref={headerRef} className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5">
+    <header ref={headerRef} className="fixed inset-x-0 top-[var(--gd-topbar,0px)] z-50 px-3 pt-3 sm:px-5">
       <nav
         aria-label="Main"
         className={cn(

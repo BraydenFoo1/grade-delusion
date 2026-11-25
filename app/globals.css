@@ -454,6 +454,15 @@ body {
   animation-play-state: paused !important;
 }
 
+/* Student/Parent switcher bar (components/StudentParentSwitcher.tsx): only pages that render it get the offset. */
+html:has([data-gd-topbar]) {
+  --gd-topbar: 2.75rem;
+  scroll-padding-top: 8.75rem;
+}
+html:has([data-gd-topbar]) body {
+  padding-top: var(--gd-topbar);
+}
+
 /* Long-form text on the legal pages and blog articles */
 @layer components {
   :is(.legal, .article) {
