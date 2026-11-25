@@ -1,25 +1,10 @@
-// Release mode: is this the PUBLIC BETA (read-only, no accounts, no participation) or the full platform?
+// Release mode. The read-only public beta (no accounts, no participation) has ended: every build is the full community
+// platform (registration, sign-in, posting, comments, reactions, reports, moderation, admin, notifications).
 //
-// Fail-closed by construction:
-//  - every deployed build (production AND Vercel preview) is the public beta;
-//  - there is NO environment variable that switches a deployed build to the full platform;
-//  - the full platform exists only in `next dev`, in tests, and in the local end-to-end build
-//    (GD_LOCAL=1, never on Vercel, and only when the site URL is a loopback address).
-// Enabling accounts on a deployed site later needs a reviewed code change (and the Kai age gate), not a setting.
-
-import { isLocalOverride } from "../env";
-
-function isLoopback(url: string | undefined): boolean {
-  try {
-    const host = new URL(url ?? "").hostname;
-    return host === "localhost" || host === "127.0.0.1" || host === "::1" || host === "[::1]";
-  } catch {
-    return false;
-  }
-}
+// `isPublicBeta()` is kept, always false, so the dormant beta code paths that still call it need no edits. Operational
+// switches (registration open, submissions open, comments open...) are admin-dashboard settings stored in the database,
+// not release gates, and nothing here changes them.
 
 export function isPublicBeta(): boolean {
-  if (process.env.NODE_ENV !== "production") return false; // next dev, vitest
-  if (isLocalOverride() && isLoopback(process.env.BETTER_AUTH_URL)) return false; // local e2e build only
-  return true;
+  return false;
 }

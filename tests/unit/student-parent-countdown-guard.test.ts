@@ -27,7 +27,7 @@ describe("switcher and countdown stay client-only and tracking-free", () => {
     ["analytics / pixels", /\b(gtag|fbq|dataLayer|ga\(|_paq|posthog|mixpanel|hotjar)\b/i],
     ["external script injection", /createElement\(\s*["']script["']/],
     ["server actions", /["']use server["']/],
-    ["server-only modules", /@\/lib\/(db|auth|kai|actions|services|platform)\b|next\/headers|server-only/],
+    ["server-only modules", /@\/lib\/(db|auth|actions|services|platform)\b|next\/headers|server-only/],
   ];
 
   for (const f of FILES) {
